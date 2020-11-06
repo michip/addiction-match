@@ -1,3 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.http import JsonResponse, HttpResponseNotFound
+from .models import Profile
+from django.views.decorators.csrf import csrf_exempt
+import json
 
-# Create your views here.
+def get_profile(request, id):
+    profile = get_object_or_404(Profile, pk=id)
+    return JsonResponse({
+        "first_name": profile.first_name
+    })
+
+@csrf_exempt
+def create_profile(request):
+    if request.method == 'POST':
+        profile = Profile(**json.loads(request.body))
+        profile.save()
+
+        return JsonResponse(dict(success=True, id=profile.pk))
+
+    return HttpResponseNotFound()
