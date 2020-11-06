@@ -13,7 +13,8 @@ def get_profile(request, id):
 @csrf_exempt
 def create_profile(request):
     if request.method == 'POST':
-        profile = Profile(**json.loads(request.body))
+        profile_json = json.loads(request.body)
+        profile = Profile(first_name=profile_json['first_name'])
         profile.save()
 
         return JsonResponse(dict(success=True, id=profile.pk))
