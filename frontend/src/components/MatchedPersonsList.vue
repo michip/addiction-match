@@ -2,20 +2,8 @@
   <v-container fill-height fluid>
     <v-card max-width="1000" class="mx-auto justify-center">
       <v-expansion-panels three-line>
-        <template v-for="(item, index) in items">
-          <v-subheader
-            v-if="item.header"
-            :key="item.header"
-            v-text="item.header"
-          ></v-subheader>
-
-          <v-divider
-            v-else-if="item.divider"
-            :key="index"
-            :inset="item.inset"
-          ></v-divider>
-
-          <v-expansion-panel v-else :key="item.name">
+        <template v-for="(item) in matches">
+          <v-expansion-panel :key="item.name">
             <v-expansion-panel-header>
               <v-row align="center" class="spacer" no-gutters>
                 <v-col cols="1" sm="1" md="1">
@@ -49,31 +37,27 @@
 <script>
 export default {
   data: () => ({
-    items: [
+    matches: [
       {
         avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
         name: "Piotr Proszowski",
         age: "23",
       },
-      { divider: true, inset: true },
       {
         avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
         name: "Oscar Che",
         age: `26`,
       },
-      { divider: true, inset: true },
       {
         avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
         name: "Ali Connors",
         age: "23",
       },
-      { divider: true, inset: true },
       {
         avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
         name: "Jonas Dippel",
         age: "25",
       },
-      { divider: true, inset: true },
       {
         avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
         name: "Michael Perk",
