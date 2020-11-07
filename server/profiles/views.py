@@ -19,14 +19,15 @@ def scrape_profiles(request):
 
         if profile.gender == 0:
             profile.first_name = fake.first_name_male()
+            profile.picture_url = f"https://randomuser.me/api/portraits/men/{rd.randint(0, 56)}.jpg"
         else:
             profile.first_name = fake.first_name_female()
+            profile.picture_url = f"https://randomuser.me/api/portraits/women/{rd.randint(0,87)}.jpg"
 
         profile.city = fake.city()
         profile.story = fake.text(max_nb_chars=1000)
         profile.matching_preference = 1
         profile.birthday_year = rd.randint(1990, 2008)
-
         profile.save()
 
         user = User(username=f"generated_{profile.pk}", password="test")
