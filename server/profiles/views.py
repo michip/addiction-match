@@ -10,6 +10,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from questionnaire.matching import Matching
+from django.utils.crypto import get_random_string
 
 class ProfileView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -32,7 +33,12 @@ def scrape_profiles(request):
     all_questions = list(Question.objects.all())
 
     for i in range(15):
-        profile = Profile()
+
+        user = User(username=f"generated_{get_random_string(length=16)}")
+        user.set_password("junctiontest")
+        user.save()
+
+        profile = user.profile
         profile.gender = rd.choice([0,1])
 
         if profile.gender == 0:
@@ -48,19 +54,11 @@ def scrape_profiles(request):
         profile.birthday_year = rd.randint(1990, 2008)
         profile.save()
 
-        print(profile.pk)
-
-        user = User(username=f"generated_{profile.pk}", profile=profile)
-        user.set_password("junctiontest")
-        user.save()
         profile.save()
 
 
         profile.questionnaire_result = QuestionnaireResult()
         profile.questionnaire_result.save()
-
-        print(profile.questionnaire_result.profile.pk)
-        print(profile.pk)
 
         n = 10
         n_questions = rd.sample(all_questions, n)
