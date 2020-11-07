@@ -4,3 +4,4 @@ from questionnaire.models import QuestionnaireResult
 
 # Register your models here.
 admin.site.register(QuestionnaireResult)
+admin.site.register(Profile)

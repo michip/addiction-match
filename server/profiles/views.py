@@ -9,7 +9,7 @@ import random as rd
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-
+from questionnaire.matching import Matching
 
 class ProfileView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -21,7 +21,8 @@ class ProfileView(APIView):
                         mentored_conversations=[
                             c.to_json() for c in profile.mentored_conversations.all()],
                         started_conversations=[
-                            c.to_json() for c in profile.started_conversations.all()]
+                            c.to_json() for c in profile.started_conversations.all()],
+                        matches=Matching.matching_with_profile(profile)
                         )
         return JsonResponse(response)
 
@@ -47,20 +48,28 @@ def scrape_profiles(request):
         profile.birthday_year = rd.randint(1990, 2008)
         profile.save()
 
-        user = User(username=f"generated_{profile.pk}", password="test")
-        profile.user = user
+        print(profile.pk)
 
+        user = User(username=f"generated_{profile.pk}", profile=profile)
+        user.set_password("junctiontest")
         user.save()
+        profile.save()
 
-        questionnaire_result = QuestionnaireResult(profile=profile)
-        questionnaire_result.save()
+
+        profile.questionnaire_result = QuestionnaireResult()
+        profile.questionnaire_result.save()
+
+        print(profile.questionnaire_result.profile.pk)
+        print(profile.pk)
+
         n = 10
         n_questions = rd.sample(all_questions, n)
         answers = [pick_random_answer(list(question.answers.all())) for question in n_questions if question.style != 'slider']
         for answer in answers:
-            questionnaire_result.answers.add(answer)
+            profile.questionnaire_result.answers.add(answer)
 
-        questionnaire_result.save()
+        profile.questionnaire_result.save()
+
     return HttpResponse("Generated")
 
 
