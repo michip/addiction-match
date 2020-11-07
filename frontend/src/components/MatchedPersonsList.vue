@@ -51,57 +51,16 @@
 const axios = require("axios").default;
 export default {
   mounted: function() {
+    this.answers = this.$store.state.answeredQuestions.map(function (x) {
+      return {'question': x.pk, 'result': x.result}
+    })
+    console.log('answers')
+    console.log(this.answers)
     this.getMatchedPersons();
   },
   data: () => ({
     matches: [],
-    // matches: [
-    //   {
-    //     id: 1,
-    //     avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-    //     name: "Piotr Proszowski",
-    //     age: "23",
-    //     story:
-    //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a dui eleifend, molestie erat et, porttitor nisl. In vulputate accumsan suscipit. In non ante sit amet mauris accumsan pellentesque. Fusce pharetra sodales mattis. Fusce aliquet, urna et eleifend viverra, orci orci faucibus augue, eu bibendum dui lectus non purus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas tempor urna eros, at pharetra massa suscipit ac. Nullam tempor turpis justo, ac dapibus erat mattis at. Curabitur sagittis commodo lacus, id pharetra purus scelerisque eget. Vestibulum pharetra, mi sed fermentum ultricies, nibh eros varius nunc, fermentum pretium est ligula in lorem. Mauris eget tortor eget lacus volutpat dictum. Praesent quis erat ligula. Donec lectus lorem, facilisis ac congue vel, suscipit sed nisi. In hac habitasse platea dictumst. Nam ut gravida massa. Sed tempus et mauris a pharetra.",
-    //     percentageMatch: 97,
-    //   },
-    //   {
-    //     id: 2,
-    //     avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-    //     name: "Oscar Che",
-    //     age: `26`,
-    //     story:
-    //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a dui eleifend, molestie erat et, porttitor nisl. In vulputate accumsan suscipit. In non ante sit amet mauris accumsan pellentesque. Fusce pharetra sodales mattis. Fusce aliquet, urna et eleifend viverra, orci orci faucibus augue, eu bibendum dui lectus non purus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas tempor urna eros, at pharetra massa suscipit ac. Nullam tempor turpis justo, ac dapibus erat mattis at. Curabitur sagittis commodo lacus, id pharetra purus scelerisque eget. Vestibulum pharetra, mi sed fermentum ultricies, nibh eros varius nunc, fermentum pretium est ligula in lorem. Mauris eget tortor eget lacus volutpat dictum. Praesent quis erat ligula. Donec lectus lorem, facilisis ac congue vel, suscipit sed nisi. In hac habitasse platea dictumst. Nam ut gravida massa. Sed tempus et mauris a pharetra.",
-    //     percentageMatch: 63,
-    //   },
-    //   {
-    //     id: 3,
-    //     avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
-    //     name: "Ali Connors",
-    //     age: "23",
-    //     story:
-    //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a dui eleifend, molestie erat et, porttitor nisl. In vulputate accumsan suscipit. In non ante sit amet mauris accumsan pellentesque. Fusce pharetra sodales mattis. Fusce aliquet, urna et eleifend viverra, orci orci faucibus augue, eu bibendum dui lectus non purus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas tempor urna eros, at pharetra massa suscipit ac. Nullam tempor turpis justo, ac dapibus erat mattis at. Curabitur sagittis commodo lacus, id pharetra purus scelerisque eget. Vestibulum pharetra, mi sed fermentum ultricies, nibh eros varius nunc, fermentum pretium est ligula in lorem. Mauris eget tortor eget lacus volutpat dictum. Praesent quis erat ligula. Donec lectus lorem, facilisis ac congue vel, suscipit sed nisi. In hac habitasse platea dictumst. Nam ut gravida massa. Sed tempus et mauris a pharetra.",
-    //     percentageMatch: 54,
-    //   },
-    //   {
-    //     id: 4,
-    //     avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
-    //     name: "Jonas Dippel",
-    //     age: "25",
-    //     story:
-    //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a dui eleifend, molestie erat et, porttitor nisl. In vulputate accumsan suscipit. In non ante sit amet mauris accumsan pellentesque. Fusce pharetra sodales mattis. Fusce aliquet, urna et eleifend viverra, orci orci faucibus augue, eu bibendum dui lectus non purus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas tempor urna eros, at pharetra massa suscipit ac. Nullam tempor turpis justo, ac dapibus erat mattis at. Curabitur sagittis commodo lacus, id pharetra purus scelerisque eget. Vestibulum pharetra, mi sed fermentum ultricies, nibh eros varius nunc, fermentum pretium est ligula in lorem. Mauris eget tortor eget lacus volutpat dictum. Praesent quis erat ligula. Donec lectus lorem, facilisis ac congue vel, suscipit sed nisi. In hac habitasse platea dictumst. Nam ut gravida massa. Sed tempus et mauris a pharetra.",
-    //     percentageMatch: 13,
-    //   },
-    //   {
-    //     id: 5,
-    //     avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
-    //     name: "Michael Perk",
-    //     age: "26",
-    //     story:
-    //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a dui eleifend, molestie erat et, porttitor nisl. In vulputate accumsan suscipit. In non ante sit amet mauris accumsan pellentesque. Fusce pharetra sodales mattis. Fusce aliquet, urna et eleifend viverra, orci orci faucibus augue, eu bibendum dui lectus non purus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Maecenas tempor urna eros, at pharetra massa suscipit ac. Nullam tempor turpis justo, ac dapibus erat mattis at. Curabitur sagittis commodo lacus, id pharetra purus scelerisque eget. Vestibulum pharetra, mi sed fermentum ultricies, nibh eros varius nunc, fermentum pretium est ligula in lorem. Mauris eget tortor eget lacus volutpat dictum. Praesent quis erat ligula. Donec lectus lorem, facilisis ac congue vel, suscipit sed nisi. In hac habitasse platea dictumst. Nam ut gravida massa. Sed tempus et mauris a pharetra.",
-    //     percentageMatch: 1,
-    //   },
-    // ],
+    answers: Array
   }),
   methods: {
     contact: (id) => {
@@ -109,7 +68,7 @@ export default {
     },
     getMatchedPersons: function() {
       axios
-        .post("http://40.115.33.104:8000/questions/matchmake", {})
+        .post("http://40.115.33.104/questions/matchmake", this.answers)
         .then((response) => {
           console.log(response.data)
           this.matches = response.data

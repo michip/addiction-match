@@ -61,7 +61,7 @@ export default {
       let response = await axios.post('http://40.115.33.104:8000/questions/next-question', pastQuestions)
       let question = response.data
       if (question['last_question']) {
-        this.$router.push('/matches')
+        this.$router.push({name: 'matches'})
       }
       this.progress = this.progress + 10
       if (question.style === 'radio') {

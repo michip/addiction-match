@@ -16,7 +16,7 @@ const routes = [
     },
     {
         path: '/matches',
-        name: 'Matched persons',
+        name: 'matches',
         component: Matches 
     },
     {
