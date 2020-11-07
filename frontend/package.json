@@ -1,5 +1,5 @@
 {
-  "name": "frontend",
+  "name": "help-you-help-me",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
+    "tinycolor2": "^1.4.2",
     "vee-validate": "^3.4.3",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0",

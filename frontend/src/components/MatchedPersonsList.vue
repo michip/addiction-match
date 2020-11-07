@@ -17,7 +17,9 @@
                 </v-col>
                 <v-col cols="9" sm="9" md="9">
                   <span
-                    >{{ item.first_name }} ({{ calculate_age(item.birthday_year) }}), {{ item.city }}</span
+                    >{{ item.first_name }} ({{
+                      calculate_age(item.birthday_year)
+                    }}), {{ item.city }}</span
                   >
                 </v-col>
                 <v-col cols="2" sm="2" md="2">
@@ -26,7 +28,7 @@
                     :size="50"
                     :width="7"
                     :value="item.percentage_match"
-                    color="teal"
+                    :color="percentToHex(item.percentage_match)"
                   >
                     {{ item.percentage_match }}%
                   </v-progress-circular>
@@ -55,6 +57,7 @@
 
 <script>
 const axios = require("axios").default;
+const tinycolor = require("tinycolor2");
 export default {
   mounted: function() {
     this.answers = this.$store.state.answeredQuestions.map(function(x) {
@@ -72,7 +75,7 @@ export default {
     },
     calculate_age: (birthday_year) => {
       var currentTime = new Date();
-      return currentTime.getFullYear() - birthday_year
+      return currentTime.getFullYear() - birthday_year;
     },
     getMatchedPersons: function() {
       axios
@@ -80,7 +83,67 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.matches = response.data;
+          this.animateProgress();
         });
+    },
+    percentToHex: function(percent) {
+      percent = 100 - percent;
+      if (percent === 100) {
+        percent = 99;
+      }
+      var r, g, b;
+
+      if (percent < 50) {
+        // green to yellow
+        r = Math.floor(255 * (percent / 50));
+        g = 255;
+      } else {
+        // yellow to red
+        r = 255;
+        g = Math.floor(255 * ((50 - (percent % 50)) / 50));
+      }
+      b = 0;
+
+      function componentToHex(c) {
+        var hex = c.toString(16);
+        return hex.length == 1 ? "0" + hex : hex;
+      }
+
+      const hex_value =
+        "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
+      return tinycolor(hex_value)
+        .desaturate(60)
+        .toString();
+    },
+    animateProgress: async function() {
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+      
+      function withZeroPercentageMatch(match) {
+        match.percentage_match = 0;
+        console.log(match);
+        return match;
+      }
+
+      function withIncreasedPercentageMatch(match, initialMatches) {
+        const initialMatch = initialMatches.filter(aMatch => aMatch.pk == match.pk)[0]
+        if(initialMatch.percentage_match > match.percentage_match) {
+          match.percentage_match = match.percentage_match + 1;
+        }
+        return match;
+      }
+
+      const initialMatches = JSON.parse(JSON.stringify(this.matches.map((match) => match)));
+
+      this.matches = this.matches.map((match) =>
+        withZeroPercentageMatch(match)
+      );
+
+      for(var i = 0; i < 101; i++) {
+        await sleep(30)
+        this.matches = this.matches.map(match => withIncreasedPercentageMatch(match, initialMatches))
+      }
     },
   },
 };
