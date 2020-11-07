@@ -9,7 +9,7 @@
           width="100px"
           tile>
         <v-img
-            src="https://cdn.discordapp.com/attachments/774276728402608202/774383075236905000/f5a0c63c-edf1-4b54-a654-a521cf8521ec_200x200.png">
+            src="require('../assets/logo_navbar.png')">
         </v-img>
       </v-avatar>
       <slot>

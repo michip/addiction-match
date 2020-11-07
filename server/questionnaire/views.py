@@ -5,6 +5,7 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 from profiles.models import Profile
 from .models import Question, Answer, QuestionnaireResult
 import json
+import random as rd
 
 @csrf_exempt
 def process_answers(request):
@@ -15,16 +16,21 @@ def process_answers(request):
         return JsonResponse(profiles_list, safe=False)
     return HttpResponseNotFound()
 
+
 def matchmake(results):
     answers = json.loads(results)
     all_profiles = Profile.objects.filter(~Q(questionnaire_result=None)).all()
     questionnaire_results = [profile.questionnaire_result for profile in all_profiles]
-    profiles_ids_with_matchmaking_percentage = [calculate_similarity(questionnaire_result, answers) for questionnaire_result in questionnaire_results]
-    profiles_ids_with_matchmaking_percentage = sorted(profiles_ids_with_matchmaking_percentage, key=lambda x: x[1], reverse=True)
+    profiles_ids_with_matchmaking_percentage = [calculate_similarity(questionnaire_result, answers) for
+                                                questionnaire_result in questionnaire_results]
+    profiles_ids_with_matchmaking_percentage = sorted(profiles_ids_with_matchmaking_percentage, key=lambda x: x[1],
+                                                      reverse=True)
 
     max_value = max(map(lambda x: x[1], profiles_ids_with_matchmaking_percentage))
-    profiles_ids_with_matchmaking_percentage = list(map(lambda x: (x[0],(x[1]/max_value) * 100), profiles_ids_with_matchmaking_percentage))
+    profiles_ids_with_matchmaking_percentage = list(
+        map(lambda x: (x[0], int((x[1] / max_value) * rd.randint(80, 91))), profiles_ids_with_matchmaking_percentage))
     return profiles_ids_with_matchmaking_percentage[:5]
+
 
 def calculate_similarity(questionnaire_result, answers):
     same_answers_count = 0
@@ -35,6 +41,7 @@ def calculate_similarity(questionnaire_result, answers):
             same_answers_count += questionnaire_result.answers.filter(pk=answer['result']).count()
 
     return (questionnaire_result.profile.pk, same_answers_count)
+
 
 def get_profiles(profiles_ids_with_matching_percentage):
     profiles_ids, percentage_match = zip(*profiles_ids_with_matching_percentage)
@@ -48,33 +55,13 @@ def get_profiles(profiles_ids_with_matching_percentage):
     json_profiles = sorted(json_profiles, key=lambda x: x['percentage_match'], reverse=True)
     return json_profiles
 
+
 def with_percentage_match(profile, percentage_match):
     profile['percentage_match'] = percentage_match
     return profile
 
 
-# Input: previous questions and answers
-# if last question: "last_question" : "true"
-
-"""
-[
-    {
-        "question": id
-        "result": 10 /slider
-        "result: 1 /radio
-        "result": [1, 2, 3] /multiple
-    },
-    ...,
-    {
-        "question": id
-        "result: {} #Answer
-    }
-]
-
-"""
-
 def calculate_next_question(last_question):
-
     parent_answer = last_question.follows_after_answer
 
     possible_questions = None
@@ -92,6 +79,7 @@ def calculate_next_question(last_question):
         possible_questions = possible_questions.order_by('order').first()
 
     return possible_questions
+
 
 @csrf_exempt
 def next_question(request):
@@ -125,6 +113,7 @@ def next_question(request):
             return JsonResponse(dict(last_question=True))
         else:
             return JsonResponse(new_question.to_json())
+
 
 def save_answer(question):
     answer = Answer(value=question['result'], question=Question.objects.get(pk=question['question']))
