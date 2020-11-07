@@ -4,7 +4,7 @@ from django.shortcuts import get_list_or_404, get_object_or_404
 from profiles.models import Profile
 
 @csrf_exempt
-def process_answer(request):
+def process_answers(request):
     if request.method == 'POST':
         # if we don't have more questions let's proceed with matchmaking...
         profiles_ids_with_matching_percentage = matchmake(request.body)
@@ -22,9 +22,15 @@ def get_profiles(profiles_ids_with_matching_percentage):
     get_percentage = lambda x: profiles_ids_with_matching_percentage.get(x)
     json_profiles = map(lambda x: x.to_json(), profiles)
     json_profiles_with_percentage_match = map(lambda x: with_percentage_match(x, get_percentage) ,json_profiles)
-    return list(json_profiles_with_percentage_match);
+    return list(json_profiles_with_percentage_match)
 
 def with_percentage_match(profile, get_percentage):
     profile['percentage_match'] = get_percentage(profile.get('pk'))
     return profile
 
+
+# Input: previous questions and answers
+# if last question: "last_question" : "true"
+@csrf_exempt
+def next_question(request):
+    return {"not_implemented":"yet..."}

@@ -6,5 +6,6 @@ from django.shortcuts import render
 from django.urls import path, include
 from .views import *
 urlpatterns = [
-    path('answer', process_answer)
+    path('matchmake', process_answer),
+    path('next-question', next_question)
 ]
