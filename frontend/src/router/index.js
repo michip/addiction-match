@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Questionnaire from "@/views/Questionnaire"
 import Matches from "@/views/Matches"
+import SignUp from "@/views/SignUp";
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,11 @@ const routes = [
         path: '/questions',
         name: 'questions',
         component: Questionnaire
+    },
+    {
+        path: '/signup',
+        name: 'signup',
+        component: SignUp
     },
     {
         path: '/app',

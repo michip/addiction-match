@@ -11,7 +11,8 @@ const vuexPersist = new VuexPersist({
 
 const store = new Vuex.Store({
     state: {
-        answeredQuestions: []
+        answeredQuestions: [],
+        profileInfo: null
     },
     mutations: {
         addQuestion(state, question) {
@@ -19,6 +20,9 @@ const store = new Vuex.Store({
         },
         clear(state) {
             state.answeredQuestions = []
+        },
+        addProfileInfo(state, profileInfo) {
+            state.profileInfo = profileInfo
         }
     },
     actions: {
