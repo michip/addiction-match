@@ -6,7 +6,7 @@
         <validation-observer v-slot="{ invalid }" ref="observer">
           <form>
             <v-row>
-              <v-col>
+              <v-col cols="12" lg="6">
                 <v-card round class="pa-5">
                   <v-card-title>Tell others about yourself</v-card-title>
                   <validation-provider
@@ -112,7 +112,7 @@
                   </validation-provider>
                 </v-card>
               </v-col>
-              <v-col>
+              <v-col cols="12" lg="6">
                 <v-card style="height: 100%" round>
                   <div>
                     <v-textarea

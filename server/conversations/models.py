@@ -2,9 +2,9 @@ from django.db import models
 from profiles.models import Profile
 
 class Conversation(models.Model):
-    inquire = models.OneToOneField(Profile, on_delete=models.SET_NULL,
+    inquire = models.ForeignKey(Profile, on_delete=models.SET_NULL,
                                    related_name="started_conversations", null=True)
-    mentor = models.OneToOneField(Profile, on_delete=models.SET_NULL,
+    mentor = models.ForeignKey(Profile, on_delete=models.SET_NULL,
                                   related_name="mentored_conversations", null=True)
 
     def to_json(self):
@@ -25,5 +25,6 @@ class Message(models.Model):
     def to_json(self):
         return {
             "sender": self.sender.pk,
-            "text": self.text
+            "text": self.text,
+            "time": str(self.time)
         }

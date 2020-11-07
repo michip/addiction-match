@@ -56,7 +56,9 @@ class Question(models.Model):
 
 class QuestionnaireResult(models.Model):
     answers = models.ManyToManyField(Answer)
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='questionnaire_result')
+    profile = models.OneToOneField(Profile,
+                                   on_delete=models.CASCADE,
+                                   related_name='questionnaire_result')
 
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
 

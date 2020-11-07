@@ -5,6 +5,8 @@ import Questionnaire from "@/views/Questionnaire"
 import Matches from "@/views/Matches"
 import SignUp from "@/views/SignUp";
 import Login from "@/views/Login";
+import Dashboard from "@/views/Dashboard";
+import ChatWindow from "@/views/ChatWindow";
 
 Vue.use(VueRouter)
 
@@ -17,7 +19,7 @@ const routes = [
     {
         path: '/matches',
         name: 'matches',
-        component: Matches 
+        component: Matches
     },
     {
         path: '/questions',
@@ -34,7 +36,16 @@ const routes = [
         name: 'login',
         component: Login
     },
-
+    {
+        path: '/chat',
+        name: 'chat',
+        component: ChatWindow
+    },
+    {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: Dashboard
+    },
     {
         path: '/app',
         name: 'About',

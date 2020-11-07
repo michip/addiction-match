@@ -3,7 +3,7 @@
     <app-bar>
       <v-spacer></v-spacer>
       <v-responsive max-width="260">
-        <v-btn outlined rounded>Log In</v-btn>
+        <v-btn outlined rounded @click="login">Log In</v-btn>
         <v-btn outlined rounded @click="signup" class="ml-4">Sign Up</v-btn>
       </v-responsive>
     </app-bar>
@@ -47,6 +47,9 @@ export default {
     },
     signup: function () {
       this.$router.push('/signup')
+    },
+    login: function () {
+      this.$router.push('/login')
     }
   }
 }

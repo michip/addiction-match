@@ -4,14 +4,10 @@
       color="white"
       flat>
     <v-container class="py-0 fill-height">
-      <v-avatar
-          class="mb-5"
-          width="100px"
-          tile>
         <v-img
-            src="require('../assets/logo_navbar.png')">
+            max-width="200px"
+            src="/logo_navbar.png">
         </v-img>
-      </v-avatar>
       <slot>
       </slot>
     </v-container>
@@ -22,5 +18,10 @@
 export default {
   name: 'AppBar',
   components: {},
+  methods: {
+    home: function () {
+      this.$router.push('/')
+    }
+  }
 }
 </script>

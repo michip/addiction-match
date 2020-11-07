@@ -6,7 +6,26 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import faker
 import random as rd
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from questionnaire.matching import Matching
+from django.utils.crypto import get_random_string
 
+class ProfileView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        profile = request.user.profile
+
+        response = dict(profile=profile.to_json(),
+                        mentored_conversations=[
+                            c.to_json() for c in profile.mentored_conversations.all()],
+                        started_conversations=[
+                            c.to_json() for c in profile.started_conversations.all()],
+                        matches=Matching.matching_with_profile(profile)
+                        )
+        return JsonResponse(response)
 
 def scrape_profiles(request):
     fake = faker.Faker()
@@ -14,7 +33,12 @@ def scrape_profiles(request):
     all_questions = list(Question.objects.all())
 
     for i in range(15):
-        profile = Profile()
+
+        user = User(username=f"generated_{get_random_string(length=16)}")
+        user.set_password("junctiontest")
+        user.save()
+
+        profile = user.profile
         profile.gender = rd.choice([0,1])
 
         if profile.gender == 0:
@@ -30,30 +54,25 @@ def scrape_profiles(request):
         profile.birthday_year = rd.randint(1990, 2008)
         profile.save()
 
-        user = User(username=f"generated_{profile.pk}", password="test")
-        profile.user = user
+        profile.save()
 
-        user.save()
 
-        questionnaire_result = QuestionnaireResult(profile=profile)
-        questionnaire_result.save()
+        profile.questionnaire_result = QuestionnaireResult()
+        profile.questionnaire_result.save()
+
         n = 10
         n_questions = rd.sample(all_questions, n)
         answers = [pick_random_answer(list(question.answers.all())) for question in n_questions if question.style != 'slider']
         for answer in answers:
-            questionnaire_result.answers.add(answer)
+            profile.questionnaire_result.answers.add(answer)
 
-        questionnaire_result.save()
+        profile.questionnaire_result.save()
+
     return HttpResponse("Generated")
 
 
 def pick_random_answer(answers):
     return rd.choice(answers)
-
-
-def get_profile(request, id):
-    profile = get_object_or_404(Profile, pk=id)
-    return JsonResponse(profile.to_json())
 
 
 @csrf_exempt
