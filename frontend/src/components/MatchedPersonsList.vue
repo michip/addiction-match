@@ -8,7 +8,7 @@
               <v-row align="center" class="spacer" no-gutters>
                 <v-col cols="1" sm="1" md="1">
                   <v-avatar>
-                    <img v-if="item.avatar" alt="Avatar" :src="item.avatar" />
+                    <img v-if="item.picture_url" alt="Avatar" :src="item.picture_url" />
                   </v-avatar>
                 </v-col>
                 <v-col cols="9" sm="9" md="9">
