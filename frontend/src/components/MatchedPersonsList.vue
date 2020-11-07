@@ -32,7 +32,7 @@
                 <p>{{ item.story }}</p>
               </v-row>
               <div class="d-flex justify-end">
-                <v-btn elevation="2" color="primary">CONTACT</v-btn>
+                <v-btn elevation="2" color="primary" @click="() => contact(item.id)">CONTACT</v-btn>
               </div>
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -47,6 +47,7 @@ export default {
   data: () => ({
     matches: [
       {
+        id: 1,
         avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
         name: "Piotr Proszowski",
         age: "23",
@@ -55,6 +56,7 @@ export default {
         percentageMatch: 97,
       },
       {
+        id: 2,
         avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
         name: "Oscar Che",
         age: `26`,
@@ -63,6 +65,7 @@ export default {
         percentageMatch: 63,
       },
       {
+        id: 3,
         avatar: "https://cdn.vuetifyjs.com/images/lists/3.jpg",
         name: "Ali Connors",
         age: "23",
@@ -71,6 +74,7 @@ export default {
         percentageMatch: 54,
       },
       {
+        id: 4,
         avatar: "https://cdn.vuetifyjs.com/images/lists/4.jpg",
         name: "Jonas Dippel",
         age: "25",
@@ -79,6 +83,7 @@ export default {
         percentageMatch: 13,
       },
       {
+        id: 5,
         avatar: "https://cdn.vuetifyjs.com/images/lists/5.jpg",
         name: "Michael Perk",
         age: "26",
@@ -87,8 +92,9 @@ export default {
         percentageMatch: 1,
       },
     ],
-    interval: {},
-    value: 0
+    contact: (id) => {
+        console.log(id)
+    }
   })
   };
 </script>
