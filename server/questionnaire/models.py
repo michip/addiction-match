@@ -23,6 +23,9 @@ class Question(models.Model):
                              choices=STYLES,
                              default='radio')
 
+    order = models.FloatField(default=1)
+
+
     def __str__(self):
         return f"{self.text} ({self.style})"
 
