@@ -22,7 +22,7 @@
               <h1>Help People Just like you</h1>
               <p>Sometimes people with past experiences can give you the best advice</p>
               <div>
-                <v-btn rounded outlined class="mt-3">Getting Started</v-btn>
+                <v-btn rounded outlined class="mt-3" @click="findHelp">Getting Started</v-btn>
               </div>
             </div>
           </v-col>
@@ -39,6 +39,12 @@ import AppBar from "@/components/AppBar";
 
 export default {
   name: 'Home',
-  components: {AppBar}
+  components: {AppBar},
+  methods: {
+    findHelp: function () {
+      this.$store.commit('clear')
+      this.$router.push('questions')
+    }
+  }
 }
 </script>

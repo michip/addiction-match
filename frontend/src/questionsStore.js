@@ -1,15 +1,16 @@
 const possibleQuestions = [
     {
         text: "How are you feeling currently?",
-        type: "choice",
+        style: "radio",
+        pk: 1,
         answers:
             [{
-                'id': 1,
-                'text': 'I am feeling really great!'
+                'pk': 1,
+                'value': 'I am feeling really great!'
             },
                 {
-                    'id': 2,
-                    'text': 'I am feeling ok'
+                    'pk': 2,
+                    'value': 'I am feeling ok'
                 }
             ],
         selected: []
@@ -17,6 +18,7 @@ const possibleQuestions = [
     {
         text: "How hard is it from 1 to 10 to do not use drugs on one day?",
         type: "slider",
+        pk: 2,
         min: 0,
         step: 1,
         max: 10
@@ -24,14 +26,15 @@ const possibleQuestions = [
     {
         text: "How hard is it from 1 to 10 to do not use drugs on one day?",
         type: "multiple-choice",
+        pk: 3,
         answers:
             [{
-                'id': 1,
-                'text': 'I am feeling really great!'
+                'pk': 1,
+                'value': 'I am feeling really great!'
             },
                 {
-                    'id': 2,
-                    'text': 'I am feeling ok'
+                    'pk': 2,
+                    'value': 'I am feeling ok'
                 }
             ]
     }
@@ -40,8 +43,8 @@ const possibleQuestions = [
 export default {
 
     getNewQuestion: function () {
-        let idx = Math.floor(Math.random() * possibleQuestions.length)
-        return possibleQuestions[idx]
+        let pkx = Math.floor(Math.random() * possibleQuestions.length)
+        return possibleQuestions[pkx]
     }
 
 }

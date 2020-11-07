@@ -5,16 +5,17 @@
     </v-card-title>
     <div class="ma-5">
       <v-expand-transition>
-        <div v-if="question.type === 'choice'">
+        <div v-if="question.style === 'radio'">
           <v-radio-group v-model="selected" @change="change">
             <v-radio
                 v-for="answer in question.answers"
-                :key="answer.id"
-                :label="answer.text"
+                :key="answer.pk"
+                :label="answer.value"
+                :value="answer.pk"
             ></v-radio>
           </v-radio-group>
         </div>
-        <div v-else-if="question.type === 'slider'">
+        <div v-else-if="question.style === 'slider'">
           <v-slider
               :max="question.max"
               :min="question.min"
@@ -25,12 +26,13 @@
               @input="change"
           ></v-slider>
         </div>
-        <div v-else-if="question.type === 'multiple-choice'">
+        <div v-else-if="question.style === 'multiple'">
           <v-radio-group multiple v-model="selected" @change="change">
             <v-radio
                 v-for="answer in question.answers"
-                :key="answer.id"
-                :label="answer.text"
+                :key="answer.pk"
+                :label="answer.value"
+                :value="answer.pk"
             ></v-radio>
           </v-radio-group>
         </div>

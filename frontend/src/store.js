@@ -16,6 +16,14 @@ const store = new Vuex.Store({
     mutations: {
         addQuestion(state, question) {
             state.answeredQuestions.push(question)
+        },
+        clear(state) {
+            state.answeredQuestions = []
+        }
+    },
+    actions: {
+        previousQuestion({state}) {
+            return state.answeredQuestions.pop()
         }
     },
     plugins: [vuexPersist.plugin]
