@@ -11,7 +11,8 @@ const possibleQuestions = [
                     'id': 2,
                     'text': 'I am feeling ok'
                 }
-            ]
+            ],
+        selected: []
     },
     {
         text: "How hard is it from 1 to 10 to do not use drugs on one day?",
