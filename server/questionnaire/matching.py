@@ -37,6 +37,8 @@ class Matching:
             map(lambda x: Matching.calculate_similarity_with_profile(x, profile),
                 questionnaire_results))
 
+        matching_profiles = matching_profiles[:5]
+
         matching_profiles = Matching.sanitize_similarity(matching_profiles, n=Matching.PROFILES_FOR_PROFILE_MATCHING)
 
         return Matching.generate_json_result(matching_profiles)
