@@ -4,10 +4,14 @@ from profiles.models import Profile
 
 class Answer(models.Model):
     value = models.CharField(max_length=400)
-    followup_question = models.ForeignKey('Question',
-                                          on_delete=models.CASCADE, null=True, default=None, blank=True)
+    followup_question = models.ManyToManyField('Question',
+                                               default=None,
+                                               blank=True)
 
     question = models.ForeignKey('Question', on_delete=models.CASCADE, related_name='answers')
+
+    def __str__(self):
+        return f"Answer {self.value} for {self.question.text}"
 
 
 class Question(models.Model):
