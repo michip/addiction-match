@@ -12,6 +12,7 @@ from rest_framework.permissions import IsAuthenticated
 from questionnaire.matching import Matching
 from django.utils.crypto import get_random_string
 
+
 class ProfileView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -27,6 +28,7 @@ class ProfileView(APIView):
                         )
         return JsonResponse(response)
 
+
 def scrape_profiles(request):
     fake = faker.Faker()
 
@@ -39,14 +41,14 @@ def scrape_profiles(request):
         user.save()
 
         profile = user.profile
-        profile.gender = rd.choice([0,1])
+        profile.gender = rd.choice([0, 1])
 
         if profile.gender == 0:
             profile.first_name = fake.first_name_male()
             profile.picture_url = f"https://randomuser.me/api/portraits/men/{rd.randint(0, 56)}.jpg"
         else:
             profile.first_name = fake.first_name_female()
-            profile.picture_url = f"https://randomuser.me/api/portraits/women/{rd.randint(0,87)}.jpg"
+            profile.picture_url = f"https://randomuser.me/api/portraits/women/{rd.randint(0, 87)}.jpg"
 
         profile.city = fake.city()
         profile.story = fake.text(max_nb_chars=1000)
@@ -56,13 +58,13 @@ def scrape_profiles(request):
 
         profile.save()
 
-
         profile.questionnaire_result = QuestionnaireResult()
         profile.questionnaire_result.save()
 
         n = 10
         n_questions = rd.sample(all_questions, n)
-        answers = [pick_random_answer(list(question.answers.all())) for question in n_questions if question.style != 'slider']
+        answers = [pick_random_answer(list(question.answers.all())) for question in n_questions if
+                   question.style != 'slider']
         for answer in answers:
             profile.questionnaire_result.answers.add(answer)
 
@@ -79,14 +81,18 @@ def pick_random_answer(answers):
 def create_profile(request):
     if request.method == 'POST':
         profile_json = json.loads(request.body)
-        profile = Profile(
-            first_name=profile_json['first_name'],
-            birthday_year=profile_json['birthday_year'],
-            gender=profile_json['gender'],
-            city=profile_json['city'],
-            story=profile_json['story'],
-            matching_preference=profile_json['matching_preference']
-        )
+
+        user = User(username=profile_json['username'])
+        user.set_password(profile_json['password'])
+        user.save()
+
+        profile = user.profile
+        profile.first_name = profile_json['first_name'],
+        profile.birthday_year = profile_json['birthday_year'],
+        profile.gender = profile_json['gender'],
+        profile.city = profile_json['city'],
+        profile.story = profile_json['story'],
+        profile.matching_preference = profile_json['matching_preference']
         profile.save()
 
         return JsonResponse(dict(success=True, id=profile.pk))
