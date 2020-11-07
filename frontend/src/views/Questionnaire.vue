@@ -30,25 +30,12 @@ export default {
   data: function () {
     return {
       questions: [],
-      question: {
-        text: "How are you feeling currently?",
-        type: "radio",
-        answers:
-            [{
-              'id': 1,
-              'text': 'I am feeling really great!'
-            },
-              {
-                'id': 2,
-                'text': 'I am feeling ok'
-              }
-            ]
-      },
-      selection: 0
+      question: null
     }
   },
 
-  mounted() {
+  created() {
+    console.log(this.$store.state.answeredQuestions)
     this.nextQuestion()
   },
   methods: {
@@ -59,7 +46,18 @@ export default {
       this.nextQuestion()
     },
     nextQuestion: function () {
-      this.question = questionsStore.getNewQuestion()
+      if (this.question != null) {
+        this.$store.commit('addQuestion', this.question)
+      }
+      let question = questionsStore.getNewQuestion()
+      if (question.type === 'choice') {
+        question.result = 0
+      } else if (question.type === 'multiple-choice') {
+        question.result = []
+      } else if (question.type === 'slider') {
+        question.result = question.min
+      }
+      this.question = question
     }
   }
 }

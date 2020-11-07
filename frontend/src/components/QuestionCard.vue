@@ -6,8 +6,7 @@
     <div class="ma-5">
       <v-expand-transition>
         <div v-if="question.type === 'choice'">
-          <v-radio-group v-model="selected"
-                         v-on:change="change">
+          <v-radio-group v-model="selected" @change="change">
             <v-radio
                 v-for="answer in question.answers"
                 :key="answer.id"
@@ -22,11 +21,12 @@
               :step="question.step"
               ticks
               thumb-label
+              v-model="selected"
+              @input="change"
           ></v-slider>
         </div>
         <div v-else-if="question.type === 'multiple-choice'">
-          <v-radio-group multiple v-model="selected"
-                         v-on:change="change">
+          <v-radio-group multiple v-model="selected" @change="change">
             <v-radio
                 v-for="answer in question.answers"
                 :key="answer.id"
@@ -47,15 +47,15 @@
 export default {
   name: 'QuestionCard',
   components: {},
-  props: ['question', 'value'],
+  props: ['question'],
   data: function () {
     return {
-      'selected': this.value,
+      'selected': this.question.result,
     }
   },
   methods: {
     change: function () {
-      this.$emit('input', this.selected)
+      this.question.result = this.selected
     }
   }
 }
