@@ -109,7 +109,7 @@ export default {
     },
     getMatchedPersons: function() {
       axios
-        .post("http://localhost/questions/matchmake", {})
+        .post("http://server:8000/questions/matchmake", {})
         .then((response) => {
           console.log(response.data)
           this.matches = response.data

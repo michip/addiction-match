@@ -16,6 +16,8 @@ def process_answers(request):
     return HttpResponseNotFound()
 
 def matchmake(results):
+    past_questions = json.loads(request.body)
+    last_question = get_object_or_404(Question, pk=last_question_json["question"])
     # Matchmaking algorithm should go there
     return {1: 97, 2: 73, 3:68, 4: 65, 5: 17}
 
