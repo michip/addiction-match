@@ -23,6 +23,9 @@ class Question(models.Model):
                              choices=STYLES,
                              default='radio')
 
+    def __str__(self):
+        return f"{self.text} ({self.style})"
+
 
 class QuestionnaireResult:
     answers = models.ManyToManyField(Answer)
