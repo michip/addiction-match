@@ -1,20 +1,55 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import JsonResponse, HttpResponseNotFound
-from .models import Profile
+from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
+from .models import Profile, User
 from django.views.decorators.csrf import csrf_exempt
 import json
+import faker
+import random as rd
+
+
+def scrape_profiles(request):
+    fake = faker.Faker()
+    for i in range(5):
+        profile = Profile()
+        profile.gender = rd.choice([0,1])
+
+        if profile.gender == 0:
+            profile.first_name = fake.first_name_male()
+        else:
+            profile.first_name = fake.first_name_female()
+
+        profile.city = fake.city()
+        profile.story = fake.text(max_nb_chars=1000)
+        profile.matching_preference = 1
+        profile.birthday_year = rd.randint(1990, 2008)
+
+        profile.save()
+
+        user = User(username=f"generated_{profile.pk}", password="test")
+        profile.user = user
+
+        user.save()
+
+    return HttpResponse("Generated")
+
 
 def get_profile(request, id):
     profile = get_object_or_404(Profile, pk=id)
-    return JsonResponse({
-        "first_name": profile.first_name
-    })
+    return JsonResponse(profile.to_json())
+
 
 @csrf_exempt
 def create_profile(request):
     if request.method == 'POST':
         profile_json = json.loads(request.body)
-        profile = Profile(first_name=profile_json['first_name'])
+        profile = Profile(
+            first_name=profile_json['first_name'],
+            birthday_year=profile_json['birthday_year'],
+            gender=profile_json['gender'],
+            city=profile_json['city'],
+            story=profile_json['story'],
+            matching_preference=profile_json['matching_preference']
+        )
         profile.save()
 
         return JsonResponse(dict(success=True, id=profile.pk))
