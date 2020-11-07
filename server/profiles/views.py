@@ -13,7 +13,7 @@ def scrape_profiles(request):
 
     all_questions = list(Question.objects.all())
 
-    for i in range(5):
+    for i in range(15):
         profile = Profile()
         profile.gender = rd.choice([0,1])
 
@@ -37,7 +37,7 @@ def scrape_profiles(request):
 
         questionnaire_result = QuestionnaireResult(profile=profile)
         questionnaire_result.save()
-        n = 5
+        n = 10
         n_questions = rd.sample(all_questions, n)
         answers = [pick_random_answer(list(question.answers.all())) for question in n_questions if question.style != 'slider']
         for answer in answers:
