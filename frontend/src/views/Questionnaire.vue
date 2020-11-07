@@ -56,7 +56,7 @@ export default {
         return {'question': x.pk, 'result': x.result}
       })
       console.log(pastQuestions)
-      let response = await axios.post('http://40.115.33.104:8000/questions/next-question', pastQuestions)
+      let response = await axios.post('http://localhost:8000/questions/next-question', pastQuestions)
       let question = response.data
       console.log(question)
       if (question['last_question']) {

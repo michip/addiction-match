@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from .models import Profile, User
+from questionnaire.models import QuestionnaireResult, Question
 from django.views.decorators.csrf import csrf_exempt
 import json
 import faker
@@ -9,6 +10,9 @@ import random as rd
 
 def scrape_profiles(request):
     fake = faker.Faker()
+
+    all_questions = list(Question.objects.all())
+
     for i in range(5):
         profile = Profile()
         profile.gender = rd.choice([0,1])
@@ -30,7 +34,20 @@ def scrape_profiles(request):
 
         user.save()
 
+        questionnaire_result = QuestionnaireResult(profile=profile)
+        questionnaire_result.save()
+        n = 5
+        n_questions = rd.sample(all_questions, n)
+        answers = [pick_random_answer(list(question.answers.all())) for question in n_questions if question.style != 'slider']
+        for answer in answers:
+            questionnaire_result.answers.add(answer)
+
+        questionnaire_result.save()
     return HttpResponse("Generated")
+
+
+def pick_random_answer(answers):
+    return rd.choice(answers)
 
 
 def get_profile(request, id):

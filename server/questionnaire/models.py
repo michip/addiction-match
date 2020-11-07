@@ -54,8 +54,14 @@ class Question(models.Model):
         return obj
 
 
-class QuestionnaireResult:
+class QuestionnaireResult(models.Model):
     answers = models.ManyToManyField(Answer)
-    profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    profile = models.OneToOneField(Profile, on_delete=models.CASCADE, related_name='questionnaire_result')
 
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def to_json(self):
+        return {
+            "answers": list(map(lambda x: x.to_json(), self.answers.all())),
+            "profile": self.profile.to_json()
+        }
