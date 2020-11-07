@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Questionnaire from "@/views/Questionnaire"
+import Matches from "@/views/Matches"
 
 Vue.use(VueRouter)
 
@@ -10,6 +11,11 @@ const routes = [
         path: '/',
         name: 'Landing Page',
         component: Home
+    },
+    {
+        path: '/matches',
+        name: 'Matched persons',
+        component: Matches 
     },
     {
         path: '/questions',
