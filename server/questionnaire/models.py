@@ -9,6 +9,12 @@ class Answer(models.Model):
     def __str__(self):
         return f"Answer {self.value} for {self.question.text}"
 
+    def to_json(self):
+        return {
+            "pk": self.pk,
+            "value": self.value,
+        }
+
 
 class Question(models.Model):
     STYLES = [
@@ -30,6 +36,22 @@ class Question(models.Model):
 
     def __str__(self):
         return f"{self.text} ({self.style})"
+
+    def to_json(self):
+        obj = {
+            "pk": self.pk,
+            "text": self.text,
+            "style": self.style,
+        }
+
+        if self.style == "slider":
+            obj["min_value"] = 0
+            obj["max_value"] = 10
+            obj["step"] = 1
+        else:
+            obj["answers"] = [a.to_json() for a in self.answers.all()]
+
+        return obj
 
 
 class QuestionnaireResult:
