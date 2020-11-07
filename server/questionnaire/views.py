@@ -33,4 +33,4 @@ def with_percentage_match(profile, get_percentage):
 # if last question: "last_question" : "true"
 @csrf_exempt
 def next_question(request):
-    return {"not_implemented":"yet..."}
+    return JsonResponse({"not_implemented":"yet..."})
