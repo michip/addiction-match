@@ -2,6 +2,8 @@ from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_list_or_404, get_object_or_404
 from profiles.models import Profile
+from .models import Question, Answer
+import json
 
 @csrf_exempt
 def process_answers(request):
@@ -31,6 +33,35 @@ def with_percentage_match(profile, get_percentage):
 
 # Input: previous questions and answers
 # if last question: "last_question" : "true"
-@csrf_exempt
+
+"""
+[
+    {
+        "question": id
+        "result: {} #Answer
+    },
+    ...,
+    {
+        "question": id
+        "result: {} #Answer
+    }
+]
+
+"""
+
 def next_question(request):
-    return JsonResponse({"not_implemented":"yet..."})
+
+    past_questions = json.loads(request.body)
+    last_question_json = None
+
+    if past_questions:
+        last_question_json = past_questions[-1]
+
+    if last_question_json:
+        last_question = get_object_or_404(Question, pk=last_question_json["question"])
+        parent_question = last_question.follows_after_answer.question
+
+
+
+
+    return {"not_implemented":"yet..."}
