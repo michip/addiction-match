@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersist from 'vuex-persist'
+const axios = require("axios").default;
 
 Vue.use(Vuex)
 
@@ -12,7 +13,8 @@ const vuexPersist = new VuexPersist({
 const store = new Vuex.Store({
     state: {
         answeredQuestions: [],
-        profileInfo: null
+        profileInfo: null,
+        accessToken: null
     },
     mutations: {
         addQuestion(state, question) {
@@ -26,8 +28,20 @@ const store = new Vuex.Store({
         }
     },
     actions: {
-        previousQuestion({state}) {
-            return state.answeredQuestions.pop()
+        async login({commit, state}, credentials) {
+            try {
+                let response = await axios.post('http://40.115.33.104:8000/api/token/', {
+                    'username': credentials.name,
+                    'password': credentials.password
+                })
+                if (response.status === 200) {
+                    this.accessToken = response.data.accessToken
+                    return true
+                }
+                return false
+            } catch (e) {
+                return false
+            }
         }
     },
     plugins: [vuexPersist.plugin]

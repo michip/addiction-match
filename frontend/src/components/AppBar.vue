@@ -7,6 +7,7 @@
       <v-avatar
           class="mb-5"
           width="100px"
+          @click="home"
           tile>
         <v-img
             src="require('../assets/logo_navbar.png')">
@@ -22,5 +23,10 @@
 export default {
   name: 'AppBar',
   components: {},
+  methods: {
+    home: function () {
+      this.$router.push('/')
+    }
+  }
 }
 </script>
