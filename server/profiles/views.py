@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from questionnaire.matching import Matching
 from django.utils.crypto import get_random_string
-
+from conversations.models import Conversation
 
 class ProfileView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -19,11 +19,20 @@ class ProfileView(APIView):
     def get(self, request):
         profile = request.user.profile
 
+        profiles = list(Profile.objects.all())
+
+        #TODO: remove the mock up
+        started_conversations = [
+            Conversation(inquire=profile, mentor=rd.choice(profiles)) for _ in range(5)]
+
+        mentored_conversations = [
+            Conversation(inquire=rd.choice(profiles), mentor=profile) for _ in range(5)]
+
         response = dict(profile=profile.to_json(),
                         mentored_conversations=[
-                            c.to_json() for c in profile.mentored_conversations.all()],
+                            c.to_json() for c in mentored_conversations],
                         started_conversations=[
-                            c.to_json() for c in profile.started_conversations.all()],
+                            c.to_json() for c in started_conversations],
                         matches=Matching.matching_with_profile(profile)
                         )
         return JsonResponse(response)
