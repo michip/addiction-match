@@ -17,8 +17,8 @@
         </div>
         <div v-else-if="question.style === 'slider'">
           <v-slider
-              :max="question.max"
-              :min="question.min"
+              :max="question['max_value']"
+              :min="question['min_value']"
               :step="question.step"
               ticks
               thumb-label
@@ -27,10 +27,11 @@
           ></v-slider>
         </div>
         <div v-else-if="question.style === 'multiple'">
-          <v-radio-group multiple v-model="selected" @change="change">
+          <v-radio-group multiple  :value="selected">
             <v-radio
                 v-for="answer in question.answers"
                 :key="answer.pk"
+                @click="toggleMultiple(answer.pk)"
                 :label="answer.value"
                 :value="answer.pk"
             ></v-radio>
@@ -52,12 +53,27 @@ export default {
   props: ['question'],
   data: function () {
     return {
-      'selected': this.question.result,
+      'selected': this.question.result
     }
   },
   methods: {
     change: function () {
       this.question.result = this.selected
+    },
+    toggleMultiple: function (id) {
+      if (this.selected.includes(id)) {
+        this.selected = this.selected.filter((i) => {
+          return i !== id;
+        });
+      } else {
+        this.selected.push(id);
+      }
+      this.change()
+    }
+  },
+  watch: {
+    question: function (newVal, oldVal) { // watch it
+      this.selected = newVal.result
     }
   }
 }

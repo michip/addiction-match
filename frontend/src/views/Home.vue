@@ -4,7 +4,7 @@
       <v-spacer></v-spacer>
       <v-responsive max-width="260">
         <v-btn outlined rounded>Log In</v-btn>
-        <v-btn outlined rounded class="ml-4">Sign Up</v-btn>
+        <v-btn outlined rounded @click="signup" class="ml-4">Sign Up</v-btn>
       </v-responsive>
     </app-bar>
     <v-main class="grey lighten-5">
@@ -44,6 +44,9 @@ export default {
     findHelp: function () {
       this.$store.commit('clear')
       this.$router.push('questions')
+    },
+    signup: function () {
+      this.$router.push('/signup')
     }
   }
 }
