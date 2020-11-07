@@ -6,7 +6,24 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import faker
 import random as rd
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
+
+class ProfileView(APIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        profile = request.user.profile
+
+        response = dict(profile=profile.to_json(),
+                        mentored_conversations=[
+                            c.to_json() for c in profile.mentored_conversations.all()],
+                        started_conversations=[
+                            c.to_json() for c in profile.started_conversations.all()]
+                        )
+        return JsonResponse(response)
 
 def scrape_profiles(request):
     fake = faker.Faker()
@@ -49,11 +66,6 @@ def scrape_profiles(request):
 
 def pick_random_answer(answers):
     return rd.choice(answers)
-
-
-def get_profile(request, id):
-    profile = get_object_or_404(Profile, pk=id)
-    return JsonResponse(profile.to_json())
 
 
 @csrf_exempt
