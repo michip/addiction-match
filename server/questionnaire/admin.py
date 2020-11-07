@@ -1,3 +1,12 @@
 from django.contrib import admin
+import django.forms as forms
 
-# Register your models here.
+from .models import Question, Answer
+
+admin.site.register(Question)
+
+admin.site.register(Answer)
+
+
+
+
