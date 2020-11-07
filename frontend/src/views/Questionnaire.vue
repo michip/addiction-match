@@ -3,12 +3,11 @@
     <app-bar></app-bar>
     <v-main class="grey lighten-5">
       <v-progress-linear value="15"></v-progress-linear>
-      <v-container height="800px" class="d-flex justify-center align-center">
+      <v-container style="height: 90%" class="d-flex justify-center align-center">
         <div>
-          <question-card :question="question" :answers="answers"
-                         v-model="selection">
+          <question-card :question="question">
           </question-card>
-          <v-btn class="float-left">Previous</v-btn>
+          <v-btn class="float-left" disabled @click="previousClick">Previous</v-btn>
           <v-btn class="primary float-right" @click="nextClick">Next</v-btn>
         </div>
       </v-container>
@@ -20,6 +19,7 @@
 
 import QuestionCard from "@/components/QuestionCard";
 import AppBar from "@/components/AppBar";
+import questionsStore from "@/questionsStore";
 
 export default {
   name: 'Questionnaire',
@@ -29,24 +29,37 @@ export default {
   },
   data: function () {
     return {
-      question: "How are you feeling currently?",
-      answers:
-          [{
-            'id': 1,
-            'text': 'I am feeling really great!'
-          },
-            {
-              'id': 2,
-              'text': 'Fuck I have to do cocaine'
+      questions: [],
+      question: {
+        text: "How are you feeling currently?",
+        type: "radio",
+        answers:
+            [{
+              'id': 1,
+              'text': 'I am feeling really great!'
             },
-          ],
+              {
+                'id': 2,
+                'text': 'I am feeling ok'
+              }
+            ]
+      },
       selection: 0
     }
   },
+
+  mounted() {
+    this.nextQuestion()
+  },
   methods: {
     nextClick: function () {
-      console.log(this)
-      console.log(this.selection)
+      this.nextQuestion()
+    },
+    previousClick: function () {
+      this.nextQuestion()
+    },
+    nextQuestion: function () {
+      this.question = questionsStore.getNewQuestion()
     }
   }
 }
