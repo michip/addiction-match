@@ -10,7 +10,6 @@
 <script>
 import MatchedPersonsList from "../components/MatchedPersonsList";
 import AppBar from "../components/AppBar";
-
 export default {
   name: "Matches",
   components: { MatchedPersonsList, AppBar },
