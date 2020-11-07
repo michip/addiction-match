@@ -1,8 +1,8 @@
 <template>
   <v-app>
-      <AppBar></AppBar>
+    <AppBar></AppBar>
     <v-content class="grey lighten-5">
-      <MatchedPersonsList></MatchedPersonsList>
+      <MatchedPersonsList :matches="matches"></MatchedPersonsList>
     </v-content>
   </v-app>
 </template>
@@ -10,8 +10,33 @@
 <script>
 import MatchedPersonsList from "../components/MatchedPersonsList";
 import AppBar from "../components/AppBar";
+const axios = require("axios").default;
+
 export default {
   name: "Matches",
   components: { MatchedPersonsList, AppBar },
+  mounted: function() {
+    console.log("matches: ", this.matches)
+    this.answers = this.$store.state.answeredQuestions.map(function(x) {
+      return { question: x.pk, result: x.result };
+    });
+    this.getMatchedPersons();
+  },
+  data: function() {
+    return {
+      matches: [],
+      answers: Array
+    };
+  },
+  methods: {
+    getMatchedPersons: function() {
+      axios
+        .post("http://40.115.33.104:8000/questions/matchmake", this.answers)
+        .then((response) => {
+          console.log(response.data);
+          this.matches = response.data;
+        });
+    },
+  },
 };
 </script>

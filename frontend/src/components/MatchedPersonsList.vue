@@ -56,19 +56,11 @@
 </template>
 
 <script>
-const axios = require("axios").default;
 const tinycolor = require("tinycolor2");
 export default {
-  mounted: function() {
-    this.answers = this.$store.state.answeredQuestions.map(function(x) {
-      return { question: x.pk, result: x.result };
-    });
-    this.getMatchedPersons();
+  props: {
+    matches: Array,
   },
-  data: () => ({
-    matches: [],
-    answers: Array,
-  }),
   methods: {
     contact: (id) => {
       console.log(id);
@@ -76,15 +68,6 @@ export default {
     calculate_age: (birthday_year) => {
       var currentTime = new Date();
       return currentTime.getFullYear() - birthday_year;
-    },
-    getMatchedPersons: function() {
-      axios
-        .post("http://40.115.33.104:8000/questions/matchmake", this.answers)
-        .then((response) => {
-          console.log(response.data);
-          this.matches = response.data;
-          this.animateProgress();
-        });
     },
     percentToHex: function(percent) {
       percent = 100 - percent;
