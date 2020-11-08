@@ -24,16 +24,15 @@ class Message(models.Model):
     conversation = models.ForeignKey(Conversation, on_delete=models.CASCADE, related_name='messages')
 
     def to_json(self):
-        date_time = self.time.to_python()
         return {
             "sender": self.sender.pk,
             "text": self.text,
             "time": {
-                'year': date_time.year,
-                'month': date_time.month,
-                'day': date_time.day,
-                'hour': date_time.hour,
-                'minute': date_time.minute,
+                'year': self.time.year,
+                'month': self.time.month,
+                'day': self.time.day,
+                'hour': self.time.hour,
+                'minute': self.time.minute,
                 'millisecond': 0
             }
         }
