@@ -30,9 +30,9 @@ class ProfileView(APIView):
 
         response = dict(profile=profile.to_json(),
                         mentored_conversations=[
-                            c.to_json() for c in profile.mentored_conversations],
+                            c.to_json() for c in profile.mentored_conversations.all()],
                         started_conversations=[
-                            c.to_json() for c in profile.started_conversations],
+                            c.to_json() for c in profile.started_conversations.all()],
                         matches=Matching.matching_with_profile(profile)
                         )
         return JsonResponse(response)
