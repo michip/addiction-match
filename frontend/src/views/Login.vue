@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <app-bar></app-bar>
+    <app-bar :includeHome="true"></app-bar>
     <v-main class="grey lighten-5">
       <v-container class="">
         <validation-observer v-slot="{ invalid }" ref="form">
