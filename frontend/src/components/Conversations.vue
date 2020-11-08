@@ -11,7 +11,7 @@
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title v-html="item.name"></v-list-item-title>
-              <v-list-item-subtitle v-if="item.msg">...
+              <v-list-item-subtitle v-if="item.msg" v-html="item.msg"> ...
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>

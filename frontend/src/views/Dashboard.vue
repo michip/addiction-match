@@ -91,7 +91,7 @@ export default {
             return {
               'name': item.inquire['first_name'],
               'picture': item.inquire['picture_url'],
-              'msg': item.mentor['story'].substring(0, 100),
+              'msg': item.inquire['story'].substring(0, 100),
               'pk': item.pk
             }
           })
