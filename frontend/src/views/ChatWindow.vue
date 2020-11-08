@@ -97,8 +97,8 @@ export default {
         }
       },
       timestampConfig: {
-        format: 'YYYHH:mm',
-        relative: false
+        format: 'HH:mm',
+        relative: true
       },
     }
   },
@@ -126,8 +126,7 @@ export default {
         return {
           'profilePicture': data['picture_url'],
           'name': data['first_name'],
-          'id': data.pk,
-          'timestamp': data.time
+          'id': data.pk
         }
       }
       this.user = mapUser(user)
@@ -143,6 +142,7 @@ export default {
           'participantId': msg.sender,
           'uploaded': true,
           'type': 'text',
+          'timestamp': msg.time
         }
       })
     },
