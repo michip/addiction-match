@@ -16,3 +16,9 @@ Easiest way is to use docker-compose configuration. Prerequisites for that are d
 
 ### 3. On-line demo
 App is available under http://www.help-you-help.me.
+
+Demo users are
+
+`User: olivia`
+
+`Password: oliviatest`
