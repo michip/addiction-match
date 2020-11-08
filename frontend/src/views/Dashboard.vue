@@ -99,7 +99,7 @@ export default {
           this.$refs.matches.animateProgress(this.matches);
         }
       } catch (e) {
-        if (e.response.status === 401) {
+        if (e.response === undefined || e.response.status === 401) {
           this.$router.push('/login')
         }
       }
