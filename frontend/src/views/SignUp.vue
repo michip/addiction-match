@@ -3,7 +3,7 @@
     <app-bar :includeHome="true"></app-bar>
     <v-main class="grey lighten-5">
       <v-container>
-        <validation-observer v-slot="{ invalid }" ref="observer">
+        <validation-observer v-slot="{ invalid }" ref="form">
           <form>
             <v-row>
               <v-col cols="12" lg="6">
@@ -209,11 +209,14 @@ export default {
       console.log(infos)
       try {
         let response = await axios.post('http://40.115.33.104:8000/profiles/create', infos)
-        console.log(response)
-        this.$store.commit('addProfileInfo', infos)
-        this.$router.push('/questions')
+        let success = await this.$store.dispatch('login', {'name': this.username, 'password': this.password})
+        if (success) {
+          this.$router.push('/questions')
+        } else {
+          this.$refs.form.setErrors({'username': ['unknown error']})
+        }
       } catch (e) {
-        console.log(e)
+        this.$refs.form.setErrors({'username': ['unknown error']})
       }
     }
   },

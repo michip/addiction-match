@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     contact: function(item) {
-      const isLoggedIn = this.$store.state.profileInfo !== undefined ? true : false;
+      const isLoggedIn = this.$store.state.profileInfo !== null
       var pk;
       if(isLoggedIn) {
         pk = this.$store.state.profileInfo.pk;
