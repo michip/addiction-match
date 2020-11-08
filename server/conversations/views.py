@@ -17,7 +17,7 @@ def create_conversation(request):
     if request.method == 'POST':
         conversation_json = json.loads(request.body)
 
-        inquire = get_object_or_404(Profile, pk=conversation_json['inquire'])
+        inquire = None
         mentor = get_object_or_404(Profile, pk=conversation_json['mentor'])
 
         conversation = Conversation(inquire=inquire, mentor=mentor)
