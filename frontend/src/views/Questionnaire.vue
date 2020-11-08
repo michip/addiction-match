@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <app-bar></app-bar>
+    <app-bar :withoutButtons="true"></app-bar>
     <v-main class="grey lighten-5">
       <v-progress-linear :value="progress"></v-progress-linear>
       <v-container style="height: 90%" class="d-flex justify-center align-center">

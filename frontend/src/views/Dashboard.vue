@@ -1,8 +1,6 @@
 <template>
   <v-app>
     <app-bar>
-      <v-spacer></v-spacer>
-      <v-btn outlined rounded @click="logout">Log Out</v-btn>
     </app-bar>
     <v-main class="grey lighten-5">
       <v-container>
@@ -66,10 +64,6 @@ export default {
     this.getData()
   },
   methods: {
-    logout: function () {
-      this.$store.commit('logout')
-      this.$router.push('/login')
-    },
     getData: async function () {
       const headers = {'Authorization': 'Bearer ' + this.$store.state.accessToken}
       const url = config.baseUrl + '/profiles/get'
