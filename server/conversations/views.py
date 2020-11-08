@@ -35,7 +35,7 @@ def create_conversation(request):
     if request.method == 'POST':
         conversation_json = json.loads(request.body)
 
-        if conversation_json['profile_id']:
+        if 'profile_id' in conversation_json and conversation_json['profile_id']:
             temporary_profile = get_object_or_404(Profile, pk=conversation_json['profile_id'])
         else:
             temporary_profile = Profile(first_name=conversation_json['first_name'],
