@@ -79,7 +79,7 @@ export default {
         return { question: x.pk, result: x.result };
       });
       let response = await axios.post(
-        "http://40.115.33.104:8000/questions/next-question", {profile_id: isLoggedIn ? pk : undefined, answer: pastQuestions}
+        "http://40.115.33.104:8000/questions/next-question", {profile_id: isLoggedIn ? pk : undefined, answers: pastQuestions}
       );
       let question = response.data;
       if (question["last_question"]) {
