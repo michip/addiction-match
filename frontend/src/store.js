@@ -29,6 +29,7 @@ const store = new Vuex.Store({
         },
         logout(state) {
             state.accessToken = null;
+            state.profileInfo = null;
         },
         saveToken(state, token) {
             state.accessToken = token
