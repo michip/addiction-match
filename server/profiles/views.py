@@ -96,11 +96,11 @@ def create_profile(request):
         user.save()
 
         profile = user.profile
-        profile.first_name = profile_json['first_name'],
-        profile.birthday_year = profile_json['birthday_year'],
-        profile.gender = profile_json['gender'],
-        profile.city = profile_json['city'],
-        profile.story = profile_json['story'],
+        profile.first_name = profile_json['first_name']
+        profile.birthday_year = profile_json['birthday_year']
+        profile.gender = profile_json['gender']
+        profile.city = profile_json['city']
+        profile.story = profile_json['story']
         profile.matching_preference = profile_json['matching_preference']
         profile.save()
 

@@ -11,7 +11,17 @@
                   <v-card-title>Tell others about yourself</v-card-title>
                   <validation-provider
                       v-slot="{ errors }"
-                      name="Name"
+                      name="username"
+                      rules="required">
+                    <v-text-field
+                        v-model="username"
+                        :error-messages="errors"
+                        label="Username"
+                    ></v-text-field>
+                  </validation-provider>
+                  <validation-provider
+                      v-slot="{ errors }"
+                      name="firstName"
                       rules="required">
                     <v-text-field
                         v-model="name"
@@ -170,6 +180,7 @@ export default {
   data: function () {
     return {
       name: null,
+      username: null,
       nameErrors: [],
       password: null,
       passwordErrors: [],
@@ -186,6 +197,7 @@ export default {
   methods: {
     submit: async function () {
       let infos = {
+        'username': this.username,
         'first_name': this.name,
         'password': this.password,
         'birthday_year': parseInt(this.date.substring(0, 4)),
@@ -195,10 +207,14 @@ export default {
         'matching_preference': 0
       }
       console.log(infos)
-      let response = await axios.post('http://40.115.33.104:8000/profiles/create', infos)
-      console.log(response)
-      this.$store.commit('addProfileInfo', infos)
-      this.$router.push('/questions')
+      try {
+        let response = await axios.post('http://40.115.33.104:8000/profiles/create', infos)
+        console.log(response)
+        this.$store.commit('addProfileInfo', infos)
+        this.$router.push('/questions')
+      } catch (e) {
+        console.log(e)
+      }
     }
   },
   computed: {}
