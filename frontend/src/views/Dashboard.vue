@@ -80,7 +80,7 @@ export default {
           this.location = profile.city
           this.image = profile['picture_url']
           this.startedChats = response.data['started_conversations'].map(function (item) {
-            const doesStoryExist = item.mentor['story'] !== undefined || item.mentor['story'] !== null
+            const doesStoryExist = item.mentor['story'] !== undefined && item.mentor['story'] !== null
             return {
               'name': item.mentor['first_name'],
               'picture': item.mentor['picture_url'],
@@ -89,7 +89,7 @@ export default {
             }
           })
           this.mentorChats = response.data['mentored_conversations'].map(function (item) {
-            const doesStoryExist = item.inquire['story'] !== undefined || item.inquire['story'] !== null
+            const doesStoryExist = item.inquire['story'] !== undefined && item.inquire['story'] !== null
             return {
               'name': item.inquire['first_name'],
               'picture': item.inquire['picture_url'],
