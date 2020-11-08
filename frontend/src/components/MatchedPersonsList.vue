@@ -2,11 +2,11 @@
   <v-container fill-height fluid>
     <v-card max-width="1000" class="mx-auto justify-center">
       <v-expansion-panels three-line>
-        <template v-for="(item, index) in matches">
+        <template v-for="(item, index) in copiedMatches">
           <v-expansion-panel :key="index">
             <v-expansion-panel-header>
               <v-row align="center" class="spacer" no-gutters>
-                <v-col cols="1" sm="1" md="1">
+                <v-col cols="1" sm="2" md="1">
                   <v-avatar>
                     <img
                       v-if="item.picture_url"
@@ -15,7 +15,7 @@
                     />
                   </v-avatar>
                 </v-col>
-                <v-col cols="9" sm="9" md="9">
+                <v-col cols="9" sm="8" md="9">
                   <span
                     >{{ item.first_name }} ({{
                       calculate_age(item.birthday_year)
@@ -61,6 +61,11 @@ export default {
   props: {
     matches: Array,
   },
+  data: function() {
+    return {
+      copiedMatches: [],
+    };
+  },
   methods: {
     contact: (id) => {
       console.log(id);
@@ -98,34 +103,39 @@ export default {
         .desaturate(60)
         .toString();
     },
-    animateProgress: async function() {
+    animateProgress: async function(matches) {
       function sleep(ms) {
         return new Promise((resolve) => setTimeout(resolve, ms));
       }
-      
+
       function withZeroPercentageMatch(match) {
         match.percentage_match = 0;
-        console.log(match);
         return match;
       }
 
       function withIncreasedPercentageMatch(match, initialMatches) {
-        const initialMatch = initialMatches.filter(aMatch => aMatch.pk == match.pk)[0]
-        if(initialMatch.percentage_match > match.percentage_match) {
+        const initialMatch = initialMatches.filter(
+          (aMatch) => aMatch.pk == match.pk
+        )[0];
+        if (initialMatch.percentage_match > match.percentage_match) {
           match.percentage_match = match.percentage_match + 1;
         }
         return match;
       }
 
-      const initialMatches = JSON.parse(JSON.stringify(this.matches.map((match) => match)));
+      const initialMatches = JSON.parse(
+        JSON.stringify(matches.map((match) => match))
+      );
 
-      this.matches = this.matches.map((match) =>
+      this.copiedMatches = matches.map((match) =>
         withZeroPercentageMatch(match)
       );
 
-      for(var i = 0; i < 101; i++) {
-        await sleep(30)
-        this.matches = this.matches.map(match => withIncreasedPercentageMatch(match, initialMatches))
+      for (var i = 0; i < 101; i++) {
+        await sleep(30);
+        this.copiedMatches = matches.map((match) =>
+          withIncreasedPercentageMatch(match, initialMatches)
+        );
       }
     },
   },

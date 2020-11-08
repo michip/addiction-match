@@ -2,7 +2,7 @@
   <v-app>
     <AppBar></AppBar>
     <v-content class="grey lighten-5">
-      <MatchedPersonsList :matches="matches"></MatchedPersonsList>
+      <MatchedPersonsList ref="matches" :matches="matches"></MatchedPersonsList>
     </v-content>
   </v-app>
 </template>
@@ -35,6 +35,7 @@ export default {
         .then((response) => {
           console.log(response.data);
           this.matches = response.data;
+          this.$refs.matches.animateProgress(this.matches);
         });
     },
   },
