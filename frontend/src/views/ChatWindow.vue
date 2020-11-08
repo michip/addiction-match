@@ -108,6 +108,7 @@ export default {
   },
   mounted: function () {
     this.initialize()
+    window.setInterval(this.updateMessages, 5000);
   },
   methods: {
     initialize: async function () {
@@ -132,25 +133,21 @@ export default {
           'id': data.pk
         }
       }
-
       this.user = mapUser(user)
       this.participants = [mapUser(participant)]
-      console.log(data['messages'])
-      this.messages = data['messages'].map(function (msg) {
-        console.log(msg.time)
+      this.updateMessages()
+    },
+    updateMessages: async function () {
+      const url = config.baseUrl + '/conversations/' + this.id + '/'
+      let response = await axios.get(url)
+      this.messages = response.data['messages'].map(function (msg) {
         return {
           'content': msg.text,
           'participantId': msg.sender,
           'uploaded': true,
           'type': 'text',
-          //'timestamp': msg.time
         }
       })
-    },
-    updateMessages: async function () {
-      const url = config.baseUrl + '/conversations/' + this.id + '/'
-      let response = await axios.get(url)
-      this.messages = response.data['messages']
     },
     onMessageSubmit: async function (message) {
       /*
