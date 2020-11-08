@@ -32,8 +32,13 @@ export default {
   },
   methods: {
     getMatchedPersons: function() {
+      const isLoggedIn = this.$store.state.profileInfo !== null
+      var pk;
+      if(isLoggedIn) {
+        pk = this.$store.state.profileInfo.pk;
+      }
       axios
-        .post("http://40.115.33.104:8000/questions/matchmake", this.answers)
+        .post("http://40.115.33.104:8000/questions/matchmake", {profile_id: isLoggedIn ? pk : undefined, answers: this.answers})
         .then((response) => {
           console.log(response.data);
           this.matches = response.data;
