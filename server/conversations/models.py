@@ -17,7 +17,7 @@ class Conversation(models.Model):
 
 
 class Message(models.Model):
-    sender = models.OneToOneField(Profile, on_delete=models.CASCADE)
+    sender = models.ForeignKey(Profile, on_delete=models.CASCADE)
     text = models.CharField(max_length=1000)
     time = models.DateTimeField(auto_now_add=True, blank=True)
 
