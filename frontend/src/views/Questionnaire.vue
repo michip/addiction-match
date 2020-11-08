@@ -65,6 +65,13 @@ export default {
       this.progress -= 10;
     },
     nextQuestion: async function() {
+
+      const isLoggedIn = this.$store.state.profileInfo !== null
+      var pk;
+      if(isLoggedIn) {
+        pk = this.$store.state.profileInfo.pk;
+      }
+
       if (this.question != null) {
         this.$store.commit("addQuestion", this.question);
       }
@@ -72,8 +79,7 @@ export default {
         return { question: x.pk, result: x.result };
       });
       let response = await axios.post(
-        "http://40.115.33.104:8000/questions/next-question",
-        pastQuestions
+        "http://40.115.33.104:8000/questions/next-question", {profile_id: isLoggedIn ? pk : undefined, answer: pastQuestions}
       );
       let question = response.data;
       if (question["last_question"]) {
