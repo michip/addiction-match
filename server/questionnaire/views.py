@@ -6,6 +6,7 @@ from profiles.models import Profile
 from .models import Question, Answer, QuestionnaireResult
 import json
 from .matching import Matching
+from django.core.exceptions import ObjectDoesNotExist
 
 
 @csrf_exempt
@@ -80,8 +81,13 @@ def next_question(request):
 
             if 'profile_id' in json_object and json_object['profile_id'] is not None:
                 profile = get_object_or_404(Profile, pk=json_object['profile_id'])
-                profile.questionnaire_result = QuestionnaireResult()
-                profile.questionnaire_result.save()
+
+                try:
+                    if profile.questionnaire_result is None:
+                        raise ObjectDoesNotExist()
+                except ObjectDoesNotExist:
+                    profile.questionnaire_result = QuestionnaireResult()
+                    profile.questionnaire_result.save()
 
                 for question_json in past_questions:
                     question = Question.objects.get(pk=question_json['question'])
