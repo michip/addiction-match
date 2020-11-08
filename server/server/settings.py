@@ -111,14 +111,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-JWT_AUTH = {
+SIMPLE_JWT = {
     # how long the original token is valid for
-    'JWT_EXPIRATION_DELTA': timedelta(days=14),
-    # allow refreshing of tokens
-    'JWT_ALLOW_REFRESH': False,
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=14),
     # this is the maximum time AFTER the token was issued that
     # it can be refreshed.  exprired tokens can't be refreshed.
-    'JWT_REFRESH_EXPIRATION_DELTA': timedelta(days=14),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=14),
 }
 
 REST_FRAMEWORK = {

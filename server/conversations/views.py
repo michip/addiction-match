@@ -35,9 +35,12 @@ def create_conversation(request):
     if request.method == 'POST':
         conversation_json = json.loads(request.body)
 
-        temporary_profile = Profile(first_name=conversation_json['first_name'],
-                                    picture_url="https://www.pngitem.com/pimgs/m/421-4212341_default-avatar-svg-hd-png-download.png")
-        temporary_profile.save()
+        if conversation_json['profile_id']:
+            temporary_profile = get_object_or_404(Profile, pk=conversation_json['profile_id'])
+        else:
+            temporary_profile = Profile(first_name=conversation_json['first_name'],
+                                        picture_url="https://www.pngitem.com/pimgs/m/421-4212341_default-avatar-svg-hd-png-download.png")
+            temporary_profile.save()
 
         inquire = temporary_profile
         mentor = get_object_or_404(Profile, pk=conversation_json['mentor'])
