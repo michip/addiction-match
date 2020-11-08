@@ -80,18 +80,20 @@ export default {
           this.location = profile.city
           this.image = profile['picture_url']
           this.startedChats = response.data['started_conversations'].map(function (item) {
+            const doesStoryExist = item.mentor['story'] !== undefined || item.mentor['story'] !== null
             return {
               'name': item.mentor['first_name'],
               'picture': item.mentor['picture_url'],
-              'msg': item.mentor['story'].substring(0, 100),
+              'msg': doesStoryExist ? item.mentor['story'].substring(0, 100) : '',
               'pk': item.pk
             }
           })
           this.mentorChats = response.data['mentored_conversations'].map(function (item) {
+            const doesStoryExist = item.inquire['story'] !== undefined || item.inquire['story'] !== null
             return {
               'name': item.inquire['first_name'],
               'picture': item.inquire['picture_url'],
-              'msg': item.inquire['story'].substring(0, 100),
+              'msg': doesStoryExist ? item.inquire['story'].substring(0, 100) : '',
               'pk': item.pk
             }
           })
@@ -99,7 +101,7 @@ export default {
           this.$refs.matches.animateProgress(this.matches);
         }
       } catch (e) {
-        if (e.response === undefined || e.response.status === 401) {
+        if (e.response.status === 401) {
           this.$router.push('/login')
         }
       }
