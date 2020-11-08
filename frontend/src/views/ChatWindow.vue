@@ -3,32 +3,28 @@
     <app-bar>
       <v-spacer></v-spacer>
       <v-responsive max-width="260">
-        <v-btn outlined rounded @click="login">Log Out</v-btn>
+        <v-btn outlined rounded>Log Out</v-btn>
       </v-responsive>
     </app-bar>
     <v-main class="grey lighten-5">
-      <v-container class="d-flex justify-center">
+      <v-container class="d-flex justify-center" style="height: 100%">
         <Chat v-if="visible"
-              style="height: 700px; max-width: 800px"
+              style="height: 100%;"
               :participants="participants"
               :myself="myself"
               :messages="messages"
-              :chat-title="chatTitle"
               :placeholder="placeholder"
               :colors="colors"
               :border-style="borderStyle"
               :hide-close-button="hideCloseButton"
               :submit-icon-size="submitIconSize"
-              :submit-image-icon-size="submitImageIconSize"
-              :load-more-messages="toLoad.length > 0 ? loadMoreMessages : null"
               :async-mode="asyncMode"
               :scroll-bottom="scrollBottom"
-              :display-header="true"
+              :display-header="false"
               :send-images="false"
               :profile-picture-config="profilePictureConfig"
               :timestamp-config="timestampConfig"
               @onMessageSubmit="onMessageSubmit"
-              @onType="onType"
               @onClose="onClose"/>
       </v-container>
     </v-main>
@@ -46,6 +42,7 @@ export default {
     Chat,
     AppBar
   },
+  props: ['partner'],
   data() {
     return {
       visible: true,
@@ -77,7 +74,6 @@ export default {
           type: 'text'
         },
       ],
-      chatTitle: 'Discussing with my guardian angel',
       placeholder: 'Say something',
       colors: {
         header: {
@@ -110,31 +106,10 @@ export default {
       submitIconSize: 25,
       closeButtonIconSize: "20px",
       asyncMode: false,
-      toLoad: [
-        {
-          content: 'Hey, John Doe! How are you today?',
-          myself: false,
-          participantId: 2,
-          timestamp: {year: 2011, month: 3, day: 5, hour: 10, minute: 10, second: 3, millisecond: 123},
-          uploaded: true,
-          viewed: true,
-          type: 'text'
-        },
-        {
-          content: "Hey, Adam! I'm feeling really fine this evening.",
-          myself: true,
-          participantId: 3,
-          timestamp: {year: 2010, month: 0, day: 5, hour: 19, minute: 10, second: 3, millisecond: 123},
-          uploaded: true,
-          viewed: true,
-          type: 'text'
-        },
-      ],
       scrollBottom: {
         messageSent: true,
         messageReceived: true
       },
-      displayHeader: false,
       profilePictureConfig: {
         others: true,
         myself: true,
@@ -148,14 +123,9 @@ export default {
         format: 'HH:mm',
         relative: false
       },
-
-
     }
   },
   methods: {
-    onType: function (event) {
-      //here you can set any behavior
-    },
     loadMoreMessages(resolve) {
       setTimeout(() => {
         resolve(this.toLoad); //We end the loading state and add the messages

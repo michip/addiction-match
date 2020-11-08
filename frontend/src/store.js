@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersist from 'vuex-persist'
+
 const axios = require("axios").default;
 
 Vue.use(Vuex)
@@ -25,6 +26,12 @@ const store = new Vuex.Store({
         },
         addProfileInfo(state, profileInfo) {
             state.profileInfo = profileInfo
+        },
+        logout(state) {
+            state.accessToken = null;
+        },
+        saveToken(state, token) {
+            state.accessToken = token
         }
     },
     actions: {
@@ -35,7 +42,8 @@ const store = new Vuex.Store({
                     'password': credentials.password
                 })
                 if (response.status === 200) {
-                    this.accessToken = response.data.accessToken
+                    console.log(response)
+                    commit('saveToken', response.data.access)
                     return true
                 }
                 return false

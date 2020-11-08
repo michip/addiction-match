@@ -2,9 +2,7 @@
   <v-app>
     <app-bar>
       <v-spacer></v-spacer>
-      <v-responsive max-width="260">
-        <v-btn outlined rounded @click="login">Log Out</v-btn>
-      </v-responsive>
+      <v-btn outlined rounded @click="logout">Log Out</v-btn>
     </app-bar>
     <v-main class="grey lighten-5">
       <v-container>
@@ -35,7 +33,7 @@
           </v-col>
           <v-col cols="12" lg="6">
             <v-subheader class="text-h5">Potential Matches</v-subheader>
-            <matched-persons-list></matched-persons-list>
+            <matched-persons-list :matches="matches"></matched-persons-list>
           </v-col>
         </v-row>
       </v-container>
@@ -60,34 +58,38 @@ export default {
       name: '',
       location: 'Berlin, Germany',
       image: '',
-      chats: [
-        {
-          id: 1,
-          avatar: "https://cdn.vuetifyjs.com/images/lists/1.jpg",
-          name: "Piotr Proszowski",
-          chat: "Thanks for your help!"
-        },
-        {
-          id: 2,
-          avatar: "https://cdn.vuetifyjs.com/images/lists/2.jpg",
-          name: "Oscar Che",
-          chat: ""
-        }
-      ]
+      chats: [],
+      matches: []
     }
   },
-  created: function () {
+  mounted: function () {
     this.getData()
   },
   methods: {
     logout: function () {
+      this.$store.commit('logout')
       this.$router.push('/login')
     },
     getData: async function () {
-      console.log(this.$store.state.accessToken)
-      const headers = {'Authorization: Bearer': this.$store.state.accessToken}
-      let response = await axios.get("${config.baseUrl}/profiles/get/", {}, headers)
-      console.log(response)
+      const headers = {'Authorization': 'Bearer ' + this.$store.state.accessToken}
+      const url = config.baseUrl + '/profiles/get'
+      console.log(url)
+      try {
+        let response = await axios.get(url, {'headers': headers})
+        console.log(response)
+        if (response.status === 200) {
+          const profile = response.data.profile
+          this.name = profile['first_name']
+          this.location = profile.city
+          this.image = profile['picture_url']
+          this.chats = response.data['started_conversations']
+          this.matches = response.data['matches']
+        }
+      } catch (e) {
+        if (e.response.status === 401) {
+          this.$router.push('/login')
+        }
+      }
     }
   }
 }
