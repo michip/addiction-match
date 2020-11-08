@@ -1,10 +1,28 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseNotFound
 from django.http import JsonResponse
 from .models import Conversation, Message
 from profiles.models import Profile
 import json
 from django.views.decorators.csrf import csrf_exempt
+import faker
 
+
+@csrf_exempt
+def generate_message(request):
+    fake = faker.Faker()
+    if request.method == 'POST':
+        requesting_message = json.loads(request.body)
+        conversation = get_object_or_404(Conversation, pk=requesting_message['conversation'])
+        sender = get_object_or_404(Profile, requesting_message['message_from'])
+        text = fake.text(max_nb_chars=100)
+
+        message = Message(sender=sender, text=text, conversation=conversation)
+        message.save()
+
+        return JsonResponse(dict(success=True, message=message.pk))
+
+    return HttpResponseNotFound()
 
 # TODO: Authentication
 def get_conversation(request, id):
@@ -17,7 +35,11 @@ def create_conversation(request):
     if request.method == 'POST':
         conversation_json = json.loads(request.body)
 
-        inquire = get_object_or_404(Profile, pk=conversation_json['inquire'])
+        temporary_profile = Profile(first_name=conversation_json['first_name'],
+                                    picture_url="https://www.pngitem.com/pimgs/m/421-4212341_default-avatar-svg-hd-png-download.png")
+        temporary_profile.save()
+
+        inquire = temporary_profile
         mentor = get_object_or_404(Profile, pk=conversation_json['mentor'])
 
         conversation = Conversation(inquire=inquire, mentor=mentor)

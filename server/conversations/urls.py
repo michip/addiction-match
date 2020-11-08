@@ -7,4 +7,5 @@ urlpatterns = [
     path('create', create_conversation),
     path('messages/send', send_message),
     path('messages/get-new', get_new_messages),
+    path('messages/generate', generate_message),
 ]
