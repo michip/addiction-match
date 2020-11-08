@@ -77,6 +77,7 @@ export default {
         .post("http://40.115.33.104:8000/conversations/create", {
           profile_id: isLoggedIn ? pk : undefined,
           first_name: isLoggedIn ? undefined : 'Guest',
+          mentor: item.pk
         })
         .then((response) => {
           this.$router.push({ name: "chat", query: { id: response.data.id } });
