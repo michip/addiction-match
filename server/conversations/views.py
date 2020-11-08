@@ -54,7 +54,7 @@ def send_message(request):
         message_json = json.loads(request.body)
         sender = get_object_or_404(Profile, pk=message_json['sender'])
         conversation = get_object_or_404(Conversation, pk=message_json['conversation'])
-        message = Message(sender=sender, text=message_json['text'], converation=conversation)
+        message = Message(sender=sender, text=message_json['text'], conversation=conversation)
         message.save()
 
         return JsonResponse(dict(success=True, id=message.pk, time=message.time))
