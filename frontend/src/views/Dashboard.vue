@@ -67,7 +67,7 @@ export default {
     getData: async function () {
       const headers = {'Authorization': 'Bearer ' + this.$store.state.accessToken}
       const url = config.baseUrl + '/profiles/get'
-      console.log(url)
+      console.log(this.$store.state.profileInfo)
       try {
         let response = await axios.get(url, {'headers': headers})
         if (response.status === 200) {
@@ -79,7 +79,6 @@ export default {
           this.chats = response.data['started_conversations']
           this.matches = response.data['matches']
           this.$refs.matches.animateProgress(this.matches);
-          this.$store.commit('addProfileInfo', profile)
         }
       } catch (e) {
         if (e.response.status === 401) {

@@ -41,12 +41,21 @@ const store = new Vuex.Store({
                     'username': credentials.name,
                     'password': credentials.password
                 })
+                console.log(response)
                 if (response.status === 200) {
-                    commit('saveToken', response.data.access)
-                    return true
+                    console.log(response)
+                    const headers = {'Authorization': 'Bearer ' + response.data.access}
+                    let secondResponse = await axios.get('http://40.115.33.104:8000/profiles/get',
+                        {'headers': headers})
+                    if (secondResponse.status === 200) {
+                        commit('saveToken', response.data.access)
+                        commit('addProfileInfo', secondResponse.data.profile)
+                        return true
+                    }
                 }
                 return false
             } catch (e) {
+                console.log(e)
                 return false
             }
         }
