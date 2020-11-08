@@ -45,7 +45,7 @@ def create_conversation(request):
         conversation = Conversation(inquire=inquire, mentor=mentor)
         conversation.save()
 
-        return JsonResponse(dict(success=True, id=conversation.pk))
+        return JsonResponse(dict(success=True, id=conversation.pk, profile_id=temporary_profile.pk))
 
 
 @csrf_exempt
