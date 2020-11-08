@@ -5,13 +5,13 @@
         <template v-for="item in chats">
           <v-list-item
               @click="openChat(item)"
-              :key="item.title">
+              :key="item.name">
             <v-list-item-avatar>
-              <v-img :src="item.mentor['picture_url']"></v-img>
+              <v-img :src="item.picture"></v-img>
             </v-list-item-avatar>
             <v-list-item-content>
-              <v-list-item-title v-html="item.mentor['first_name']"></v-list-item-title>
-              <v-list-item-subtitle v-if="item.mentor['story']" v-html="item.mentor['story'].substring(0, 100)">...
+              <v-list-item-title v-html="item.name"></v-list-item-title>
+              <v-list-item-subtitle v-if="item.msg">...
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
