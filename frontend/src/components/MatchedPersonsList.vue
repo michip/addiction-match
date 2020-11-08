@@ -74,7 +74,7 @@ export default {
         })
         .then((response) => {
           this.$router.push({ name: "chat", query: { id: response.data.id } });
-          const profileId = respone.data.profile_id
+          const profileId = response.data.profile_id
           this.$store.commit('addProfileInfo', {'pk': profileId})
         });
     },
