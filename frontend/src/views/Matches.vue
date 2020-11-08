@@ -1,8 +1,10 @@
 <template>
   <v-app>
     <AppBar></AppBar>
-    <v-content fill-height class="grey lighten-5">
-      <MatchedPersonsList ref="matches" :matches="matches"></MatchedPersonsList>
+    <v-content class="grey lighten-5">
+      <v-container fill-height>
+        <MatchedPersonsList ref="matches" :matches="matches"></MatchedPersonsList>
+      </v-container>
     </v-content>
   </v-app>
 </template>
