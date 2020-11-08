@@ -43,8 +43,7 @@
                 <v-btn
                   elevation="2"
                   color="primary"
-                  @click="() => contact(item.id)"
-                  >CONTACT</v-btn
+                  @click="contact(item)" >CONTACT</v-btn
                 >
               </div>
             </v-expansion-panel-content>
@@ -57,6 +56,8 @@
 
 <script>
 const tinycolor = require("tinycolor2");
+const axios = require("axios").default;
+
 export default {
   props: {
     matches: Array,
@@ -67,8 +68,10 @@ export default {
     };
   },
   methods: {
-    contact: (id) => {
-      console.log(id);
+    contact: function(item) {
+      axios.post("http://40.115.33.104:8000/conversations/create", {"mentor" : item.pk, "first_name" : item.first_name})
+            .then(response => this.$router.push({name: 'chat', query: {'id': response.data.id }}))
+      
     },
     calculate_age: (birthday_year) => {
       var currentTime = new Date();
