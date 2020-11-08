@@ -11,9 +11,15 @@ from .matching import Matching
 @csrf_exempt
 def process_answers(request):
     if request.method == 'POST':
-        answers = json.loads(request.body)
-        profiles_list = Matching.matching_with_json_answers(answers)
-        return JsonResponse(profiles_list, safe=False)
+        json_object = json.loads(request.body)
+
+        if 'profile_id' in json_object and json_object['profile_id'] is not None:
+            profile = get_object_or_404(Profile, pk=json_object['profile_id'])
+            return JsonResponse(Matching.matching_with_profile(profile), safe=False)
+        else:
+            answers = json_object['answers']
+            profiles_list = Matching.matching_with_json_answers(answers)
+            return JsonResponse(profiles_list, safe=False)
     return HttpResponseNotFound()
 
 
