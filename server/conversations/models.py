@@ -11,6 +11,7 @@ class Conversation(models.Model):
         return {
             "inquire": None if self. inquire is None else self.inquire.to_json(),
             "mentor": None if self.mentor is None else self.mentor.to_json(),
+            "pk": self.pk,
             "messages": [m.to_json() for m in self.messages.all()]
         }
 
