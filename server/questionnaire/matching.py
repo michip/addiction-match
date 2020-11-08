@@ -15,7 +15,7 @@ class Matching:
 
     @staticmethod
     def get_questionnaire_results(profile=None):
-        all_profiles = Profile.objects.filter(~Q(questionnaire_result=None))
+        all_profiles = Profile.objects.filter(~Q(questionnaire_result=None), ~Q(first_name="Guest"))
         if profile is not None:
             all_profiles = all_profiles.filter(~Q(pk=profile.pk))
 
@@ -23,8 +23,6 @@ class Matching:
 
     @staticmethod
     def matching_with_profile(profile):
-
-        print(profile.to_json())
         try:
             if profile.questionnaire_result is None:
                 return []
