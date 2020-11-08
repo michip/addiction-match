@@ -19,8 +19,8 @@
               background-size: cover;
               display: block;">
               <div style="position: absolute; margin: 80px; max-width: 400px" class="text-center">
-                <h1>Help People Just like you</h1>
-                <p>Sometimes people with past experiences can give you the best advice</p>
+                <h1>We are here for you.</h1>
+                <p>Find someone who experienced <b>your</b> hardships to talk to. Or help a younger version of yourself going through his/her life by sign-up or login</p>
                 <div>
                   <v-btn rounded outlined class="mt-3" @click="findHelp">Getting Started</v-btn>
                 </div>
@@ -40,7 +40,7 @@
               people tend to find themselves alone when they encounter hardships in their life. help me,help you allows
               young adults to find a mentor who experienced the same difficulties in their life and can now advise youth
               and build a helpful relationship with them.
-              Take on our quick survey below if you’re a newcomer, otherwise you can sign-in !
+              Take on our quick survey above if you’re a newcomer, otherwise you can sign-in !
             </div>
           </v-col>
           <v-col class="col-lg-4 col-md-6 col-12 p-5 p-md-3 p-lg-0">
@@ -87,7 +87,7 @@
               Protecting your data
             </h1>
             <div style="color: #6c757d!important;">
-              With help me,help you we ensure the user’s identity privacy and discretion. Our service is free for all
+              With 'help me,help' you we ensure the user’s identity privacy and discretion. Our service is free for all
               and, and you can always use it anonymously. However we encourage you to create a profile if you want to
               keep contacts with your precedent matches or if you want to skip the survey.
             </div>
