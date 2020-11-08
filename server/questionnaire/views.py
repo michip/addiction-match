@@ -75,6 +75,7 @@ def next_question(request):
             if 'profile_id' in json_object and json_object['profile_id'] is not None:
                 profile = get_object_or_404(Profile, pk=json_object['profile_id'])
                 profile.questionnaire_result = QuestionnaireResult()
+                profile.questionnaire_result.save()
 
                 for question_json in past_questions:
                     question = Question.objects.get(pk=question_json['question'])
