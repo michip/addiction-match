@@ -1,9 +1,8 @@
 <template>
   <v-app-bar app color="white" flat>
     <v-container class="py-0 fill-height">
-      <v-img max-width="200px" src="/logo_navbar.png"> </v-img>
+      <v-img max-width="200px" src="/logo_navbar.png" @click="home"> </v-img>
       <v-spacer></v-spacer>
-      <v-btn v-if="!isLoggedIn && !withoutButtons && includeHome" outlined rounded @click="home">Home</v-btn>
       <v-btn v-if="isLoggedIn && !withoutButtons && includeDashboard" outlined rounded @click="dashboard" class="ml-4">Dashboard</v-btn>
       <v-btn v-if="isLoggedIn && !withoutButtons" outlined rounded @click="logout" class="ml-4">Log Out</v-btn>
       <v-btn v-if="!isLoggedIn && !withoutButtons" outlined rounded @click="login" class="ml-4">Log In</v-btn>

@@ -153,6 +153,13 @@
 
         </v-row>
       </div>
+      <v-footer padless>
+        <v-col
+            class="text-center"
+            cols="12">
+          <a href="https://www.freepik.com/vectors/people">People vector created by pch.vector - www.freepik.com</a>
+        </v-col>
+      </v-footer>
     </v-main>
   </v-app>
 </template>
