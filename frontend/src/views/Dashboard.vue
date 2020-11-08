@@ -26,8 +26,10 @@
                 </v-list-item>
               </v-list>
             </v-card>
-            <v-subheader class="text-h5 mt-5">Chats</v-subheader>
-            <conversations :chats="chats"></conversations>
+            <v-subheader class="text-h5 mt-5">Mentoring</v-subheader>
+            <conversations :chats="mentorChats"></conversations>
+            <v-subheader class="text-h5 mt-5">Seeking Help</v-subheader>
+            <conversations :chats="startedChats"></conversations>
           </v-col>
           <v-col cols="12" lg="6">
             <v-subheader class="text-h5">Potential Matches</v-subheader>
@@ -56,7 +58,8 @@ export default {
       name: '',
       location: 'Berlin, Germany',
       image: '',
-      chats: [],
+      mentorChats: [],
+      startedChats: [],
       matches: []
     }
   },
@@ -76,7 +79,22 @@ export default {
           this.name = profile['first_name']
           this.location = profile.city
           this.image = profile['picture_url']
-          this.chats = response.data['started_conversations']
+          this.startedChats = response.data['started_conversations'].map(function (item) {
+            return {
+              'name': item.mentor['first_name'],
+              'picture': item.mentor['picture_url'],
+              'msg': item.mentor['story'].substring(0, 100),
+              'pk': item.pk
+            }
+          })
+          this.mentorChats = response.data['mentored_conversations'].map(function (item) {
+            return {
+              'name': item.inquirer['first_name'],
+              'picture': item.inquirer['picture_url'],
+              'msg': item.mentor['story'].substring(0, 100),
+              'pk': item.pk
+            }
+          })
           this.matches = response.data['matches']
           this.$refs.matches.animateProgress(this.matches);
         }
