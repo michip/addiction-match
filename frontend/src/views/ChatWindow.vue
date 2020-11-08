@@ -130,7 +130,8 @@ export default {
         return {
           'profilePicture': data['picture_url'],
           'name': data['first_name'],
-          'id': data.pk
+          'id': data.pk,
+          'timestamp': data.time
         }
       }
       this.user = mapUser(user)

@@ -89,8 +89,8 @@ export default {
           })
           this.mentorChats = response.data['mentored_conversations'].map(function (item) {
             return {
-              'name': item.inquirer['first_name'],
-              'picture': item.inquirer['picture_url'],
+              'name': item.inquire['first_name'],
+              'picture': item.inquire['picture_url'],
               'msg': item.mentor['story'].substring(0, 100),
               'pk': item.pk
             }
