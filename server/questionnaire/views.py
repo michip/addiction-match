@@ -2,7 +2,8 @@ from django.db.models import QuerySet, Q
 from django.http import JsonResponse, HttpResponseNotFound, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
-from .models import Question, Answer
+from profiles.models import Profile
+from .models import Question, Answer, QuestionnaireResult
 import json
 from .matching import Matching
 
@@ -45,7 +46,8 @@ def calculate_next_question(last_question):
 def next_question(request):
     if request.method == 'POST':
 
-        past_questions = json.loads(request.body)
+        json_object = json.loads(request.body)
+        past_questions = json_object['answers']
 
         last_question_json = None
         new_question = None
@@ -69,11 +71,24 @@ def next_question(request):
             new_question = Question.objects.filter(follows_after_answer=None).order_by('order').first()
 
         if new_question is None or not new_question:
-            [save_answer(question) for question in past_questions]
+
+            if 'profile_id' in json_object and json_object['profile_id'] is not None:
+                profile = get_object_or_404(Profile, pk=json_object['profile_id'])
+                profile.questionnaire_result = QuestionnaireResult()
+
+                for question_json in past_questions:
+                    question = Question.objects.get(pk=question_json['question'])
+                    if question.style != 'slider':
+                        if isinstance(question_json['result'], int):
+                            question_json['result'] = [question_json['result']]
+
+                        for answer_id in question_json['result']:
+                            answer = get_object_or_404(Answer, pk=answer_id)
+                            profile.questionnaire_result.answers.add(answer)
+                            
+                profile.questionnaire_result.save()
+
             return JsonResponse(dict(last_question=True))
         else:
             return JsonResponse(new_question.to_json())
 
-
-def save_answer(question):
-    answer = Answer(value=question['result'], question=Question.objects.get(pk=question['question']))
