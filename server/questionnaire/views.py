@@ -85,7 +85,7 @@ def next_question(request):
                         for answer_id in question_json['result']:
                             answer = get_object_or_404(Answer, pk=answer_id)
                             profile.questionnaire_result.answers.add(answer)
-                            
+
                 profile.questionnaire_result.save()
 
             return JsonResponse(dict(last_question=True))
