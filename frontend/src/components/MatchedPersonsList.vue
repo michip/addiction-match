@@ -6,7 +6,7 @@
           <v-expansion-panel :key="index">
             <v-expansion-panel-header>
               <v-row align="center" class="spacer" no-gutters>
-                <v-col cols="1" sm="2" md="1">
+                <v-col cols="1" sm="2" md="2">
                   <v-avatar>
                     <img
                       v-if="item.picture_url"
@@ -15,7 +15,7 @@
                     />
                   </v-avatar>
                 </v-col>
-                <v-col cols="9" sm="8" md="9">
+                <v-col cols="9" sm="8" md="8">
                   <span
                     >{{ item.first_name }} ({{
                       calculate_age(item.birthday_year)
