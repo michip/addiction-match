@@ -1,5 +1,5 @@
 <template>
-  <v-container fill-height fluid>
+  <v-container fluid>
     <v-card max-width="1000" class="mx-auto justify-center">
       <v-expansion-panels three-line>
         <template v-for="(item, index) in copiedMatches">

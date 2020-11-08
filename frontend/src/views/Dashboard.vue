@@ -31,7 +31,7 @@
           </v-col>
           <v-col cols="12" lg="6">
             <v-subheader class="text-h5">Potential Matches</v-subheader>
-            <matched-persons-list :matches="matches"></matched-persons-list>
+            <matched-persons-list ref="matches" :matches="matches"></matched-persons-list>
           </v-col>
         </v-row>
       </v-container>
@@ -70,14 +70,16 @@ export default {
       console.log(url)
       try {
         let response = await axios.get(url, {'headers': headers})
-        console.log(response)
         if (response.status === 200) {
+          console.log(response)
           const profile = response.data.profile
           this.name = profile['first_name']
           this.location = profile.city
           this.image = profile['picture_url']
           this.chats = response.data['started_conversations']
           this.matches = response.data['matches']
+          this.$refs.matches.animateProgress(this.matches);
+          this.$store.commit('addProfileInfo', profile)
         }
       } catch (e) {
         if (e.response.status === 401) {

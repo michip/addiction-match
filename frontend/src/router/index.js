@@ -40,7 +40,7 @@ const routes = [
         path: '/chat',
         name: 'chat',
         component: ChatWindow,
-        props: route => ({partner: route.query.partner})
+        props: route => ({id: route.query.id})
     },
     {
         path: '/dashboard',
