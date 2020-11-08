@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <app-bar>
+    <app-bar :includeDashboard="true">
       <v-spacer></v-spacer>
       <v-responsive max-width="260">
       </v-responsive>

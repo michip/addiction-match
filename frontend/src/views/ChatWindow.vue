@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <app-bar :inChat="true">
+    <app-bar :includeDashboard="true">
     </app-bar>
     <v-main class="grey lighten-5">
       <v-container class="d-flex justify-center" style="height: 100%">
