@@ -1,10 +1,6 @@
 <template>
   <v-app>
-    <app-bar>
-      <v-spacer></v-spacer>
-      <v-responsive max-width="260">
-        <v-btn outlined rounded>Dashboard</v-btn>
-      </v-responsive>
+    <app-bar :inChat="true">
     </app-bar>
     <v-main class="grey lighten-5">
       <v-container class="d-flex justify-center" style="height: 100%">
