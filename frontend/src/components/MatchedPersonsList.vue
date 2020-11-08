@@ -67,10 +67,16 @@ export default {
   },
   methods: {
     contact: function(item) {
+      const isLoggedIn = this.$store.state.profileInfo !== undefined ? true : false;
+      var pk;
+      if(isLoggedIn) {
+        pk = this.$store.state.profileInfo.pk;
+      }
+
       axios
         .post("http://40.115.33.104:8000/conversations/create", {
-          mentor: item.pk,
-          first_name: 'Mikko',
+          profile_id: isLoggedIn ? pk : undefined,
+          first_name: isLoggedIn ? undefined : 'Guest',
         })
         .then((response) => {
           this.$router.push({ name: "chat", query: { id: response.data.id } });

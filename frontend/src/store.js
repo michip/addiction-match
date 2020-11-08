@@ -42,7 +42,6 @@ const store = new Vuex.Store({
                     'password': credentials.password
                 })
                 if (response.status === 200) {
-                    console.log(response)
                     commit('saveToken', response.data.access)
                     return true
                 }
