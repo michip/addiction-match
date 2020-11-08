@@ -18,7 +18,7 @@
               display: block;">
               <div style="position: absolute; margin: 80px; max-width: 400px" class="text-center">
                 <h1>We are here for you.</h1>
-                <p>Find someone who experienced <b>your</b> hardships to talk to. Or help a younger version of yourself going through his/her life by sign-up or login</p>
+                <p>Find someone who experienced <b>your</b> hardships to talk to or help a younger version of yourself going through his/her life by sign-up or login</p>
                 <div>
                   <v-btn rounded outlined class="mt-3" @click="findHelp">Getting Started</v-btn>
                 </div>
@@ -35,10 +35,10 @@
             </h1>
             <div style="color: #6c757d!important;">
               Preventing the early use of drugs for youth may go a long way in reducing health and mental risks. Young
-              people tend to find themselves alone when they encounter hardships in their life. help me,help you allows
+              people tend to find themselves alone when they encounter hardships in their life. <br><b>help me,help you</b> allows
               young adults to find a mentor who experienced the same difficulties in their life and can now advise youth
               and build a helpful relationship with them.
-              Take on our quick survey above if you’re a newcomer, otherwise you can sign-in !
+              Take on our quick survey above if you’re a newcomer, otherwise you can sign-in!
             </div>
           </v-col>
           <v-col class="col-lg-4 col-md-6 col-12 p-5 p-md-3 p-lg-0">
@@ -71,9 +71,9 @@
               Everyone can participate
             </h1>
             <div style="color: #6c757d!important;">
-              If you’re looking for someone to talk to or if you’re offering a helping hand you’re welcome at help
-              me,help you. We aim to build a big community of mentors and peers so everyone can support each other in
-              troubled times but also build a sustainable relationship and share good moments together
+              If you’re looking for someone to talk to or if you’re offering a helping hand you’re welcome at <br><b>help
+              me,help you</b>. We aim to build a big community of mentors and peers so everyone can support each other in
+              troubled times but also build a sustainable relationship and share good moments together.
             </div>
           </v-col>
 
@@ -85,8 +85,8 @@
               Protecting your data
             </h1>
             <div style="color: #6c757d!important;">
-              With 'help me,help' you we ensure the user’s identity privacy and discretion. Our service is free for all
-              and, and you can always use it anonymously. However we encourage you to create a profile if you want to
+              With <b>help me,help you</b> we ensure the user’s identity privacy and discretion. Our service is free for all
+              and you can always use it anonymously. However we encourage you to create a profile if you want to
               keep contacts with your precedent matches or if you want to skip the survey.
             </div>
           </v-col>
