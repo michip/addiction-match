@@ -101,7 +101,7 @@ export default {
         }
       },
       timestampConfig: {
-        format: 'HH:mm',
+        format: 'YYYHH:mm',
         relative: false
       },
     }
@@ -137,12 +137,14 @@ export default {
       this.participants = [mapUser(participant)]
       console.log(data['messages'])
       this.messages = data['messages'].map(function (msg) {
-          return {
-            'content': msg.text,
-            'participantId': msg.sender,
-            'uploaded': true,
-            'type': 'text'
-          }
+        console.log(msg.time)
+        return {
+          'content': msg.text,
+          'participantId': msg.sender,
+          'uploaded': true,
+          'type': 'text',
+          //'timestamp': msg.time
+        }
       })
     },
     updateMessages: async function () {

@@ -22,17 +22,17 @@ class ProfileView(APIView):
         profiles = list(Profile.objects.all())
 
         #TODO: remove the mock up
-        started_conversations = [
+        """started_conversations = [
             Conversation(inquire=profile, mentor=rd.choice(profiles)) for _ in range(5)]
 
         mentored_conversations = [
-            Conversation(inquire=rd.choice(profiles), mentor=profile) for _ in range(5)]
+            Conversation(inquire=rd.choice(profiles), mentor=profile) for _ in range(5)]"""
 
         response = dict(profile=profile.to_json(),
                         mentored_conversations=[
-                            c.to_json() for c in mentored_conversations],
+                            c.to_json() for c in profile.mentored_conversations],
                         started_conversations=[
-                            c.to_json() for c in started_conversations],
+                            c.to_json() for c in profile.started_conversations],
                         matches=Matching.matching_with_profile(profile)
                         )
         return JsonResponse(response)
